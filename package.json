@@ -1,0 +1,160 @@
+{
+  "name": "fast-data-engine",
+  "version": "0.0.1",
+  "description": "Fast Data Engine is a blazing fast data grouping and filtering engine.",
+  "main": "build/index.js",
+  "typings": "build/index.d.ts",
+  "repository": "https://github.com/nosachamos/fast-data-engine",
+  "homepage": "http://nosachamos.github.com/fast-data-engine",
+  "license": "MIT",
+  "keywords": [
+    "form validation",
+    "form",
+    "validation",
+    "react",
+    "hooks",
+    "awesome",
+    "usable"
+  ],
+  "files": [
+    "build"
+  ],
+  "scripts": {
+    "describe": "npm-scripts-info",
+    "clean": "rm -rf build && rm -rf test && rm -rf .tmp",
+    "build": "run-s clean && npm run build:ts && npm run build:js && npm run build:copy-types",
+    "build:ts": "tsc -p tsconfig.json",
+    "build:js": "webpack --config webpack.config.js -p && webpack --config webpack.min.config.js -p",
+    "build:copy-types": "cp .tmp/*.d.ts build",
+    "prepare": "run-s prepare:*",
+    "prepare:generate-barrels": "barrelsby --directory src --singleQuotes --delete",
+    "prepare:generate-changelog": "auto-changelog -p --ignore-commit-pattern \"update changelog, fix linting, regenerate barrels\"",
+    "prepare:prettier": "prettier \"src/**/*.ts\" --write --print-width=120",
+    "prepare:eslint": "eslint . --ext .ts",
+    "prepare:commit-changes": "git add --all && git commit -m \"chore(release): update changelog, fix linting, regenerate barrels\"",
+    "check": "eslint . --ext .ts && npm run test -- --no-cache --coverage",
+    "test": "jest",
+    "test:coverage": "jest --coverage && codecov",
+    "test:watch": "jest --watch",
+    "test-release": "run-s clean build test-release:*",
+    "test-release:lint": "eslint . --ext .ts && prettier \"src/**/*.ts\" --list-different --print-width=120",
+    "test-release:unit": "npm run test -- --no-cache",
+    "release-prerelease": "npm run check && npm version prerelease && npm run release:prepare-release && npm run release:release-to-github && npm run release:release-to-npm",
+    "release-patch": "npm run check && npm version patch && npm run release:prepare-release && npm run release:release-to-github && npm run release:release-to-npm",
+    "release-minor": "npm run check && npm version minor && npm run release:prepare-release && npm run release:release-to-github && npm run release:release-to-npm",
+    "release-major": "npm run check && npm version major && npm run release:prepare-release && npm run release:release-to-github && npm run release:release-to-npm",
+    "release:prepare-release": "run-s clean build prepare doc:generate",
+    "release:release-to-github": "git push && git push --tags",
+    "release:release-to-npm": "npm publish",
+    "watch": "run-s clean build:main && run-p \"build:main -- -w\" \"test:unit -- --watch\"",
+    "doc": "run-s doc:generate:html && opn build/docs/html/index.html",
+    "doc:generate": "run-s doc:generate:*",
+    "doc:generate:html": "typedoc src/ --exclude **/*.spec.ts --out build/docs/html",
+    "doc:generate:json": "typedoc src/ --exclude **/*.spec.ts --json build/docs/json/typedoc.json"
+  },
+  "scripts-info": {
+    "info": "Display information about the package scripts",
+    "build": "Clean and rebuild the project",
+    "fix": "Try to automatically fix any linting problems",
+    "test": "Lint and unit test the project",
+    "watch": "Watch and rebuild the project on save, then rerun relevant tests",
+    "cov": "Rebuild, run tests, then create and open the coverage report",
+    "doc": "Generate HTML API documentation and open it in a browser",
+    "doc:json": "Generate API documentation in typedoc JSON format",
+    "version": "Bump package.json version, update CHANGELOG.md, tag release",
+    "reset": "Delete all untracked files and reset the repo to the last commit",
+    "prepare-release": "One-step: clean, build, test, publish docs, and prep a release"
+  },
+  "engines": {
+    "node": ">=8.9"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0"
+  },
+  "optionalDependencies": {
+    "validator": ">=13.7.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.18.9",
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
+    "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
+    "@babel/plugin-proposal-throw-expressions": "^7.18.6",
+    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
+    "@babel/preset-env": "^7.18.9",
+    "@testing-library/react": "^13.3.0",
+    "@types/jest": "^28.1.6",
+    "@typescript-eslint/eslint-plugin": "^5.31.0",
+    "@typescript-eslint/parser": "^5.31.0",
+    "auto-changelog": "^2.4.0",
+    "awesome-typescript-loader": "5.2.1",
+    "babel-eslint": "^8.2.3",
+    "babel-jest": "^28.1.3",
+    "babel-loader": "^8.2.5",
+    "barrelsby": "^2.3.4",
+    "codecov": "^3.8.2",
+    "coveralls": "^3.1.1",
+    "eslint": "^8.20.0",
+    "gh-pages": "^4.0.0",
+    "husky": "^8.0.1",
+    "jest": "^28.1.3",
+    "jest-config": "^28.1.3",
+    "jest-transform-stub": "^2.0.0",
+    "npm-run-all": "^4.1.5",
+    "npm-scripts-info": "^0.3.9",
+    "opn-cli": "^4.1.0",
+    "prettier": "^2.7.1",
+    "pretty-quick": "^3.1.3",
+    "source-map-loader": "4.0.0",
+    "standard-version": "^9.5.0",
+    "trash-cli": "^5.0.0",
+    "ts-jest": "^28.0.7",
+    "ts-node": "^10.9.1",
+    "typedoc": "^0.23.9",
+    "typescript": "^4.7.4",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "webpack": "5.74.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.9.3"
+  },
+  "jest": {
+    "setupFiles": [
+      "<rootDir>/setup-test.ts"
+    ],
+    "transform": {
+      "^.+\\.(ts|tsx)$": "ts-jest",
+      "^.+\\.(js|jsx)$": "babel-jest"
+    },
+    "clearMocks": true,
+    "testEnvironment": "jsdom",
+    "testRegex": "(\\.(test|spec))\\.(js|jsx)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 90,
+        "functions": 95,
+        "lines": 95,
+        "statements": 95
+      }
+    },
+    "coverageDirectory": "./coverage/",
+    "collectCoverageFrom": [
+      "src/{!(index),}.{js,ts}"
+    ]
+  },
+  "prettier": {
+    "singleQuote": true
+  },
+  "lint-staged": {
+    "linters": {
+      "{src,test}/**/*.{ts,jsx}": [
+        "prettier --write --print-width=120",
+        "git add"
+      ]
+    }
+  }
+}
