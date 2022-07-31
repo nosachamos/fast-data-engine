@@ -1,69 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="favicon.png" />
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="icon" type="image/png" href="favicon.png"/>
     <title>
-      fast-data-engine - React hooks based form validation made for humans.
+        Fast Data Engine is a blazing fast data grouping and filtering engine.
     </title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <meta
-      name="description"
-      content="React hooks based form validation made for humans."
+            name="description"
+            content="Fast Data Engine is a blazing fast data grouping and filtering engine."
     />
     <meta
-      name="viewport"
-      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+            name="viewport"
+            content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
     />
-    <link rel="stylesheet" href="//unpkg.com/docsify/lib/themes/vue.css" />
+    <link rel="stylesheet" href="//unpkg.com/docsify/lib/themes/vue.css"/>
 
     <style>
-      .markdown-section h1 {
-        margin: 2.5rem 0 1rem;
-      }
+        body {
+            background: url(./bg.jpg);
+            background-size: cover;
+        }
 
-      section.cover .cover-main > p:last-child a:last-child {
-        background-color: #ff2d71;
-      }
+        section.cover .cover-main h1 {
+            margin: -30px 0 10px 0;
+            color: #fff !important;
+        }
+        section.cover .cover-main h1 .anchor span {
+            color: #fff !important;
+        }
 
-      section.cover .cover-main > p:last-child a {
-        border-color: #ff2d71;
-        color: #ff2d71;
-      }
+        .markdown-section h1 {
+            margin: 2.5rem 0 1rem;
+        }
 
-      .github-corner svg {
-        fill: #ff2d71;
-      }
+        section.cover .cover-main {
+            margin-bottom: 300px;
+        }
 
-      .markdown-section code {
-        font-size: 0.8em;
-      }
+        section.cover.show {
+            background: transparent !important;
+            color: #fff;
+        }
 
-      section.cover .cover-main > p:last-child a:last-child:hover {
-        color: #ffffff !important;
-      }
+        section.cover .cover-main > p:last-child a:last-child {
+            background-color: #fe6f1e;
+            border-color: #fe6f1e;
+        }
 
-      .app-sub-sidebar li:before {
-        opacity: 0;
-      }
+        section.cover .cover-main > p:last-child a {
+            border-color: #FFCC00;
+            color: #FFCC00;
+        }
 
-      .sidebar-nav > ul > li > a {
-        font-weight: bold;
-      }
+        .github-corner svg {
+            fill: #fe6f1e;
+        }
 
-      .sidebar ul li.active > a,
-      .markdown-section code,
-      .token.function,
-      .token.keyword {
-        color: #ff2d71;
-      }
+        .markdown-section code {
+            font-size: 0.8em;
+        }
+
+        section.cover .cover-main > p:last-child a:last-child:hover {
+            color: #ffffff !important;
+        }
+
+        .app-sub-sidebar li:before {
+            opacity: 0;
+        }
+
+        .sidebar-nav > ul > li > a {
+            font-weight: bold;
+        }
+
+        .sidebar ul li.active > a,
+        .markdown-section code,
+        .token.function,
+        .token.keyword {
+            color: #fe6f1e;
+        }
     </style>
-  </head>
-  <body>
-    <div id="app"></div>
+</head>
+<body>
+<div id="app"></div>
 
-    <script>
-      window.$docsify = {
+<script>
+    window.$docsify = {
         routerMode: 'hash',
         auto2top: true,
         loadSidebar: true,
@@ -74,9 +97,8 @@
         name: 'fast-data-engine',
         repo: 'https://github.com/nosachamos/fast-data-engine',
         baseUrl: 'https://nosachamos.github.io/fast-data-engine/'
-      };
-    </script>
-    <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
-    <script src="//unpkg.com/prismjs/components/prism-jsx.min.js"></script>
-  </body>
+    };
+</script>
+<script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
+</body>
 </html>

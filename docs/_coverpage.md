@@ -1,6 +1,8 @@
 ![logo](logo.png)
 
-- Simple, extensible and lightweight (~3.6kB gzipped)
+# **Fast Data Engine**
+
+- Blazing fast, simple, extensible and lightweight
 - Built with and for React Hooks
 - The cleanest code or your money back
 
