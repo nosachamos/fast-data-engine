@@ -6,7 +6,7 @@
     "typings": "build/index.d.ts",
     "repository": "https://github.com/nosachamos/fast-data-engine",
     "homepage": "https://nosachamos.github.com/fast-data-engine",
-    "license": "MIT",
+    "license": "Proprietary",
     "keywords": [
         "form validation",
         "form",

@@ -83,6 +83,8 @@ We follow the "fork-and-pull" Git workflow.
 
 Free for personal and open source projects.
 
+Details coming soon.
+
 ---
 
 Created and maintained by **[`Eduardo Born`](http://github.com/nosachamos)** with ❤ and coffee
