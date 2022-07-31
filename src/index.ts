@@ -3,3 +3,4 @@
  */
 
 export * from './group';
+export * from './tests/basics.test';

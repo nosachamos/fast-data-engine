@@ -31,7 +31,7 @@ npm install fast-data-engine --save
 # Sample Usage
 
 ```jsx
-import { FastGroupAndFilter } from 'fast-data-engine';
+import { FastDataEngine } from 'fast-data-engine';
 
 //...
 
@@ -40,7 +40,7 @@ import { FastGroupAndFilter } from 'fast-data-engine';
 
 # In a Nutshell
 
-Import the `FastGroupAndFilter` service, or use the `useFastGroupAndFilter` hook to access the API. 
+Import the `FastDataEngine` service to access the API. 
 
 Provide your data in `json` format, and you're all set.
 
