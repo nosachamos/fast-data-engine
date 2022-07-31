@@ -3,7 +3,7 @@
 # **Fast Data Engine**
 
 - Blazing fast, simple, extensible and lightweight
-- Built with and for React Hooks
+- Group, filter, aggregate, sort and transform your data
 - The cleanest code or your money back
 
 [GitHub](https://github.com/nosachamos/fast-data-engine/)
