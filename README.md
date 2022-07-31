@@ -9,7 +9,7 @@
 Fast Data Engine is a blazing fast data grouping and filtering engine.
 
 <p align="center">
-<img src="https://github.com/nosachamos/fast-data-engine/raw/master/docs/logo.png" alt="fast-data-engine" style="max-width:100%;">
+<img src="https://github.com/nosachamos/fast-data-engine/raw/master/docs/logo_transparent.png" alt="fast-data-engine" style="max-width:100%;">
 </p>
 <p align="center">Simple, tiny, extensible, intuitive, documented, fully tested, magical.</p>
 
