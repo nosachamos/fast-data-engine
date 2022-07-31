@@ -6,12 +6,12 @@
 ![Snyk Vulnerabilities for GitHub Repo](https://img.shields.io/snyk/vulnerabilities/github/nosachamos/fast-data-engine.svg)
 ![GitHub](https://img.shields.io/github/license/nosachamos/fast-data-engine.svg)
 
-Fast Data Engine is a blazing fast data grouping and filtering engine.
+Fast Data Engine is a blazing fast data engine with support to grouping and filtering.
 
 <p align="center">
-<img src="https://github.com/nosachamos/fast-data-engine/raw/master/docs/logo_transparent.png" alt="fast-data-engine" style="max-width:100%;">
+<img width="200px" src="https://github.com/nosachamos/fast-data-engine/raw/master/docs/logo_transparent.png" alt="fast-data-engine" style="max-width:100%;">
 </p>
-<p align="center">Simple, tiny, extensible, intuitive, documented, fully tested, magical.</p>
+<p align="center">Fast, simple, tiny, extensible, intuitive, documented, fully tested, magical.</p>
 
 <br/>
 

@@ -27,7 +27,7 @@
         "build:js": "webpack --config webpack.config.js -p && webpack --config webpack.min.config.js -p",
         "build:copy-types": "cp .tmp/*.d.ts build",
         "prepare": "run-s prepare:*",
-        "prepare:generate-barrels": "barrelsby --directory src --singleQuotes --delete",
+        "prepare:generate-barrels": "barrelsby --directory src --exclude .*.test.ts --singleQuotes --delete",
         "prepare:generate-changelog": "auto-changelog -p --ignore-commit-pattern \"update changelog, fix linting, regenerate barrels\"",
         "prepare:prettier": "prettier \"src/**/*.ts\" --write --print-width=120",
         "prepare:eslint": "eslint . --ext .ts",
@@ -49,8 +49,8 @@
         "watch": "run-s clean build:main && run-p \"build:main -- -w\" \"test:unit -- --watch\"",
         "doc": "run-s doc:generate:html && opn build/docs/html/index.html",
         "doc:generate": "run-s doc:generate:*",
-        "doc:generate:html": "typedoc src/ --exclude **/*.spec.ts --out build/docs/html",
-        "doc:generate:json": "typedoc src/ --exclude **/*.spec.ts --json build/docs/json/typedoc.json"
+        "doc:generate:html": "typedoc src/ --exclude **/*.test.ts --out build/docs/html",
+        "doc:generate:json": "typedoc src/ --exclude **/*.test.ts --json build/docs/json/typedoc.json"
     },
     "scripts-info": {
         "info": "Display information about the package scripts",
@@ -110,7 +110,7 @@
         "trash-cli": "^5.0.0",
         "ts-jest": "^28.0.7",
         "ts-node": "^10.9.1",
-        "typedoc": "^0.23.9",
+        "typedoc": "^0.22.11",
         "typescript": "^4.7.4",
         "uglifyjs-webpack-plugin": "^2.2.0",
         "webpack": "5.74.0",

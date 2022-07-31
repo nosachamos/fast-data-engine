@@ -6,7 +6,7 @@
 ![Snyk Vulnerabilities for GitHub Repo](https://img.shields.io/snyk/vulnerabilities/github/nosachamos/fast-data-engine.svg)
 ![GitHub](https://img.shields.io/github/license/nosachamos/fast-data-engine.svg)
 
-Fast Group & Filter is a blazing fast json data grouping and filtering engine.
+Fast Data Engine is a blazing fast data grouping and filtering engine.
 
 <p align="center">
 <img src="https://github.com/nosachamos/fast-data-engine/raw/master/docs/logo.png" alt="fast-data-engine" style="max-width:100%;">
