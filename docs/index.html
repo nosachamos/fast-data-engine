@@ -16,14 +16,194 @@
             content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
     />
     <link rel="stylesheet" href="//unpkg.com/docsify/lib/themes/vue.css"/>
+    <link rel="stylesheet" href="./styles.css"/>
     <style>
         body {
-            background: url(./bg.jpg);
-            background-size: cover;
+        }
+
+        @keyframes wheelFlickerOn {
+            0% {
+                opacity: 0;
+                -webkit-filter: drop-shadow(0 0 30px rgba(255, 204, 0, 0));
+                filter: drop-shadow(0 0 30px rgba(255, 204, 0, 0));
+            }
+
+            10% {
+                opacity: 1;
+                -webkit-filter: drop-shadow(0 0 30px rgba(255, 204, 0, 0.8));
+                filter: drop-shadow(0 0 30px rgba(255, 204, 0, 0.8));
+            }
+
+            20% {
+                opacity: 0;
+                -webkit-filter: drop-shadow(0 0 30px rgba(255, 204, 0, 0));
+                filter: drop-shadow(0 0 30px rgba(255, 204, 0, 0));
+            }
+
+            40% {
+                opacity: 1;
+                -webkit-filter: drop-shadow(0 0 30px rgba(255, 204, 0, 0.8));
+                filter: drop-shadow(0 0 30px rgba(255, 204, 0, 0.8));
+            }
+
+            45% {
+                opacity: 0;
+                -webkit-filter: drop-shadow(0 0 30px rgba(255, 204, 0, 0));
+                filter: drop-shadow(0 0 30px rgba(255, 204, 0, 0));
+            }
+
+            100% {
+                opacity: 1;
+                -webkit-filter: drop-shadow(0 0 30px rgba(255, 204, 0, 0.8));
+                filter: drop-shadow(0 0 30px rgba(255, 204, 0, 0.8));
+            }
+        }
+
+        @keyframes wheelFlickerOff {
+            0% {
+                opacity: 1;
+                -webkit-filter: drop-shadow(0 0 30px rgba(255, 204, 0, 0.8));
+                filter: drop-shadow(0 0 30px rgba(255, 204, 0, 0.8));
+            }
+
+            10% {
+                opacity: 0;
+                -webkit-filter: drop-shadow(0 0 30px rgba(255, 204, 0, 0));
+                filter: drop-shadow(0 0 30px rgba(255, 204, 0, 0));
+            }
+
+            20% {
+                opacity: 1;
+                -webkit-filter: drop-shadow(0 0 30px rgba(255, 204, 0, 0.8));
+                filter: drop-shadow(0 0 30px rgba(255, 204, 0, 0.8));
+            }
+
+            40% {
+                opacity: 0;
+                -webkit-filter: drop-shadow(0 0 30px rgba(255, 204, 0, 0));
+                filter: drop-shadow(0 0 30px rgba(255, 204, 0, 0));
+            }
+
+            45% {
+                opacity: 1;
+                -webkit-filter: drop-shadow(0 0 30px rgba(255, 204, 0, 0.8));
+                filter: drop-shadow(0 0 30px rgba(255, 204, 0, 0.8));
+            }
+
+            100% {
+                opacity: 0;
+                -webkit-filter: drop-shadow(0 0 30px rgba(255, 204, 0, 0));
+                filter: drop-shadow(0 0 30px rgba(255, 204, 0, 0));
+            }
+        }
+
+
+        @keyframes fireFlickerOn {
+            0% {
+                opacity: 0;
+                -webkit-filter: drop-shadow(0 0 30px rgba(254, 35, 30, 0));
+                filter: drop-shadow(0 0 30px rgba(254, 35, 30, 0));
+            }
+
+            10% {
+                opacity: 1;
+                -webkit-filter: drop-shadow(0 0 30px rgba(254, 35, 30, 0.8));
+                filter: drop-shadow(0 0 30px rgba(254, 35, 30, 0.8));
+            }
+
+            20% {
+                opacity: 0;
+                -webkit-filter: drop-shadow(0 0 30px rgba(254, 35, 30, 0));
+                filter: drop-shadow(0 0 30px rgba(254, 35, 30, 0));
+            }
+
+            40% {
+                opacity: 1;
+                -webkit-filter: drop-shadow(0 0 30px rgba(254, 35, 30, 0.8));
+                filter: drop-shadow(0 0 30px rgba(254, 35, 30, 0.8));
+            }
+
+            45% {
+                opacity: 0;
+                -webkit-filter: drop-shadow(0 0 30px rgba(254, 35, 30, 0));
+                filter: drop-shadow(0 0 30px rgba(254, 35, 30, 0));
+            }
+
+            100% {
+                opacity: 1;
+                -webkit-filter: drop-shadow(0 0 30px rgba(254, 35, 30, 0.8));
+                filter: drop-shadow(0 0 30px rgba(254, 35, 30, 0.8));
+            }
+        }
+
+        @keyframes fireFlickerOff {
+            0% {
+                opacity: 1;
+                -webkit-filter: drop-shadow(0 0 30px rgba(254, 35, 30, 0.8));
+                filter: drop-shadow(0 0 30px rgba(254, 35, 30, 0.8));
+            }
+
+            10% {
+                opacity: 0;
+                -webkit-filter: drop-shadow(0 0 30px rgba(254, 35, 30, 0));
+                filter: drop-shadow(0 0 30px rgba(254, 35, 30, 0));
+            }
+
+            20% {
+                opacity: 1;
+                -webkit-filter: drop-shadow(0 0 30px rgba(254, 35, 30, 0.8));
+                filter: drop-shadow(0 0 30px rgba(254, 35, 30, 0.8));
+            }
+
+            40% {
+                opacity: 0;
+                -webkit-filter: drop-shadow(0 0 30px rgba(254, 35, 30, 0));
+                filter: drop-shadow(0 0 30px rgba(254, 35, 30, 0));
+            }
+
+            45% {
+                opacity: 1;
+                -webkit-filter: drop-shadow(0 0 30px rgba(254, 35, 30, 0.8));
+                filter: drop-shadow(0 0 30px rgba(254, 35, 30, 0.8));
+            }
+
+            100% {
+                opacity: 0;
+                -webkit-filter: drop-shadow(0 0 30px rgba(254, 35, 30, 0));
+                filter: drop-shadow(0 0 30px rgba(254, 35, 30, 0));
+            }
+        }
+
+        img[alt=logo-fire-on] {
+            position: absolute;
+            left: calc(50% - 125px);
+            animation: fireFlickerOn 0.5s ease-in-out forwards;
+            animation-delay: 0.75s;
+        }
+
+        img[alt=logo-wheel-on] {
+            position: absolute;
+            left: calc(50% - 125px);
+            animation: wheelFlickerOn 0.5s ease-in forwards;
+            animation-delay: 1.25s;
+        }
+
+        img[alt=logo-wheel-off] {
+            position: absolute;
+            left: calc(50% - 125px);
+            animation: wheelFlickerOff .3s ease-in forwards;
+            animation-delay: 1s;
+        }
+
+        img[alt=logo-fire-off] {
+            width: 250px;
+            height: 230px;
+            animation: fireFlickerOff .5s ease-in forwards;
+            animation-delay: 1s;
         }
 
         section.cover .cover-main h1 {
-            margin: -30px 0 10px 0;
+            margin: -10px 0 20px 0;
             color: #fff !important;
         }
         section.cover .cover-main h1 .anchor span {
@@ -39,7 +219,8 @@
         }
 
         section.cover.show {
-            background: transparent !important;
+            background: url(./bg.jpg) !important;
+            background-size: cover;
             color: #fff;
         }
 
@@ -86,6 +267,7 @@
 
 <script>
     window.$docsify = {
+        themeColor: "#FE6F1E",
         routerMode: 'hash',
         auto2top: true,
         loadSidebar: true,
