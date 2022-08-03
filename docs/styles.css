@@ -217,7 +217,7 @@ main.hidden {
     transition: all 0.3s;
 }
 .anchor span {
-    color: #00bc8c;
+    color: #FE6F1E;
 }
 .anchor:hover {
     text-decoration: underline;
@@ -241,10 +241,9 @@ main.hidden {
     text-align: center;
 }
 .sidebar > h1 a {
-    color: inherit;
     text-decoration: none;
     font-weight: 600;
-    color: #4c9a87;
+    color: #bbbbbb;
 }
 .sidebar > h1 .app-nav {
     display: block;
@@ -264,7 +263,7 @@ main.hidden {
 .sidebar li > p {
     font-weight: 700;
     margin: 0;
-    color: #4c9a87;
+    color: #bbbbbb;
 }
 .sidebar ul,
 .sidebar ul li {
@@ -610,9 +609,8 @@ body {
     margin: 6px 0;
 }
 .sidebar ul li a {
-    color: #007054;
+    color: #bbbbbb;
     font-size: 14px;
-    font-weight: 600;
     overflow: hidden;
     text-decoration: none;
     text-overflow: ellipsis;
@@ -733,13 +731,13 @@ body {
 }
 .token.boolean,
 .token.number {
-    color: #c76b29;
+    color: #00d8ff;
 }
 .token.punctuation {
     color: #0078c8;
 }
 .token.property {
-    color: #c76b29;
+    color: #FFCC00;
 }
 .token.tag {
     color: #2973b7;
@@ -766,7 +764,7 @@ body {
     color: var(--theme-color, #00bc8c);
 }
 .token.keyword {
-    color: #c76b29;
+    color: #FFCC00;
 }
 .token.atrule,
 .token.regex,
@@ -792,7 +790,7 @@ body {
     font-weight: 700;
 }
 .token.important {
-    color: #c76b29;
+    color: #FFCC00;
 }
 .token.entity {
     cursor: help;
