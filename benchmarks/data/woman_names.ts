@@ -1,4 +1,4 @@
-export const GIRL_NAMES = [
+export const WOMAN_NAMES = [
     "Olivia",
     "Emma",
     "Charlotte",

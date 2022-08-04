@@ -1,4 +1,4 @@
-export const BOY_NAMES = [
+export const MAN_NAMES = [
     "Liam",
     "Noah",
     "Oliver",
