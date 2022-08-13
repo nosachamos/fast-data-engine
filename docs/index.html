@@ -230,18 +230,31 @@
             color: #fff;
         }
 
-        section.cover .cover-main > p:last-child a:last-child {
-            background-color: #fe6f1e;
-            border-color: #fe6f1e;
+        /*section.cover .cover-main > p:last-child a:last-child {*/
+        /*    background-color: #fe6f1e;*/
+        /*    border-color: #fe6f1e;*/
+        /*}*/
+
+        /*section.cover .cover-main > p:last-child a {*/
+        /*    border-color: #ffDD00;*/
+        /*    color: #ffDD00;*/
+        /*}*/
+
+        /*.github-corner svg {*/
+        /*    fill: #fe6f1e;*/
+        /*}*/
+
+        /*.sidebar ul li.active > a,*/
+        /*.markdown-section code,*/
+        /*.token.function,*/
+        .token.keyword {
+            color: #b887d2;
         }
 
-        section.cover .cover-main > p:last-child a {
-            border-color: #ffDD00;
-            color: #ffDD00;
-        }
-
-        .github-corner svg {
-            fill: #fe6f1e;
+        .sidebar ul li.active > a,
+        .markdown-section code,
+        .token.function {
+            color: #ffa600;
         }
 
         .markdown-section code {
@@ -260,12 +273,6 @@
             font-weight: bold;
         }
 
-        .sidebar ul li.active > a,
-        .markdown-section code,
-        .token.function,
-        .token.keyword {
-            color: #ffDD00;
-        }
     </style>
 </head>
 <body>
@@ -287,6 +294,7 @@
     };
 </script>
 <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.28/components/prism-bash.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.28/components/prism-typescript.min.js"></script>
 </body>
 </html>

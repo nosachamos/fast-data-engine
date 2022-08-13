@@ -83,7 +83,7 @@ We follow the "fork-and-pull" Git workflow.
 
 Free for personal and open source projects.
 
-Details coming soon.
+Details for commercial projects coming soon.
 
 ---
 

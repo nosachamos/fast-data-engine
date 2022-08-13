@@ -18,66 +18,59 @@ Fast Data Engine is a blazing fast data grouping and filtering engine.
 
 # Installation
 
-```sh
+```bash
 yarn add fast-data-engine
 ```
 
 or
 
-```sh
+```bash
 npm install fast-data-engine --save
 ```
 
 # Sample Usage
 
-```jsx
-import { FastGroupAndFilter } from 'fast-data-engine';
+```ts
+import { FastDataEngine } from 'fast-data-engine';
 
-//...
+// the data you want to filter, group, etc
+const data = [
+    { firstName: 'Mary', age: 10 },
+    { firstName: 'Alice', age: 20 },
+    { firstName: 'John', age: 30 }
+]
 
+const engine = new FastDataEngine(data);
+
+// filter by first name
+const condition = operators('firstName', 'John');
+const result = engine.filter(condition);
+
+console.log(result);
+
+// prints:
+// [{ firstName: 'John', age: 30 }]
 ```
 
 
 # In a Nutshell
 
-Import the `FastGroupAndFilter` service, or use the `useFastGroupAndFilter` hook to access the API.
+Create a new instance of the `FastDataEngine` service to access the API.
 
 Provide your data in `json` format, and you're all set.
 
-Now call the `group()` and `filter()` functions to configure how you want your data.
+Now call the [filter](filters.md) functions to configure how you want your data.
+
+The service keeps a copy of the original data until disposed, so you can filter and group in multiple ways without
+having to rebuild the service.
 
 
 # Contributing
 
 Contributions are very welcome!
 
-We follow the "fork-and-pull" Git workflow.
+We follow the "fork-and-pull" Git workflow. See more [details here](https://github.com/nosachamos/fast-data-engine/blob/master/CONTRIBUTING.md).
 
-1. **Create a Fork and clone it**
-
-   Simply click on the “fork” button of the repository page on GitHub.
-
-   The standard clone command creates a local git repository from your remote fork on GitHub.
-
-2. **Modify the Code**
-
-   In your local clone, modify the code and commit them to your local clone using the git commit command.
-
-   Run `yarn test` and make sure all tests still pass.
-
-   Run `tslint --project .` and make sure you get no warnings.
-
-3. **Push your Changes**
-
-   Make sure to update affected tests and/or add tests to any new features you may have created.
-
-   We are very careful to make sure coverage does not drop.
-
-4. **Create a Pull Request**
-
-   We will review your changes and possibly start a discussion.
-
-   If changes are required, you can simply push these changes into your fork by repeating steps #3 and #4 and the pull request is updated automatically.
 
 ## License
 

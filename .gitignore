@@ -6,6 +6,10 @@
 .pnp.js
 .rpt2_cache
 
+/src/tests/benchmarks/generated_data
+
+.env
+
 # testing
 /coverage
 

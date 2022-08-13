@@ -328,7 +328,7 @@ body.sticky .sidebar-toggle {
 }
 .markdown-section {
     margin: 0 auto;
-    max-width: 800px;
+    max-width: 1000px;
     padding: 30px 15px 40px;
     position: relative;
 }
@@ -356,19 +356,20 @@ body.sticky .sidebar-toggle {
     width: 100%;
 }
 .markdown-section th {
+    background: #222;
     font-weight: 700;
 }
 .markdown-section td,
 .markdown-section th {
-    border: 1px solid #b0b0b0;
+    border: 1px solid #222;
     padding: 6px 13px;
 }
 .markdown-section tr {
-    border-top: 1px solid #a3a3a3;
+    border-top: 1px solid #222;
 }
 .markdown-section p.tip,
 .markdown-section tr:nth-child(2n) {
-    background-color: #303030;
+    background-color: #111;
 }
 .markdown-section p.tip {
     border-bottom-right-radius: 2px;
@@ -707,7 +708,7 @@ body {
 }
 .markdown-section code,
 .markdown-section pre {
-    background-color: #303030;
+    background-color: transparent;
     font-family: Roboto Mono, Monaco, courier, monospace;
 }
 .markdown-section pre {
@@ -731,19 +732,19 @@ body {
 }
 .token.boolean,
 .token.number {
-    color: #00d8ff;
+    color: #34a7ff;
 }
 .token.punctuation {
-    color: #0078c8;
+    color: #c0c0c0;
 }
 .token.property {
-    color: #FFCC00;
+    color: #c44bff;
 }
 .token.tag {
-    color: #2973b7;
+    color: #c0c0c0;
 }
 .token.string {
-    color: var(--theme-color, #00bc8c);
+    color: #01d706;
 }
 .token.selector {
     color: #6679cc;
@@ -798,7 +799,7 @@ body {
 .markdown-section pre > code {
     -moz-osx-font-smoothing: initial;
     -webkit-font-smoothing: initial;
-    background-color: #303030;
+    background-color: #151515;
     border-radius: 2px;
     color: #c0c0c0;
     display: block;
@@ -808,7 +809,7 @@ body {
     margin: 0 2px;
     max-width: inherit;
     overflow: inherit;
-    padding: 2.2em 5px;
+    padding: 2.2em 20px;
     white-space: inherit;
 }
 .markdown-section code:after,

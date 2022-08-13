@@ -1,5 +1,5 @@
-export type JsonData = { [key: string]: string | number | undefined };
+import { JsonRow } from './model/JsonRow';
 
-export const group = (data: JsonData) => {
+export const group = (data: JsonRow) => {
   return data;
 };
