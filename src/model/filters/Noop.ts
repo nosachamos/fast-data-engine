@@ -1,4 +1,4 @@
-import {INode} from './INode';
+import { INode } from './INode';
 
 /**
  * The noop node accepts all rows.

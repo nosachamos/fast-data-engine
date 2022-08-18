@@ -7,6 +7,8 @@
 .rpt2_cache
 
 /src/tests/benchmarks/generated_data
+.tmp-benchmarks
+.benchmarks_tmp
 
 .env
 

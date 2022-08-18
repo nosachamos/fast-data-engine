@@ -47,6 +47,24 @@ Provide your data in `json` format, and you're all set.
 Now call the `group()` and `filter()` functions to configure how you want your data.
 
 
+# Benchmarking
+
+To add a new version to the set of benchmarks, create and push a new git tag:
+
+```bash
+git tag 0.0.1-alpha-2
+git push origin 0.0.1-alpha-2
+```
+
+Then add the new tag to the list of benchmark versions inside the `run_benchmarks.sh` file:
+
+```bash
+#!/bin/bash
+
+BENCHMARK_VERSIONS="0.0.1-alpha-1 0.0.1-alpha-2"
+```
+
+
 # Contributing
 
 Contributions are very welcome!

@@ -1,9 +1,9 @@
-import {FilterExpression} from '../../model/filters/ObjectNotationTypes';
-import {INode} from '../../model/filters/INode';
-import {NoopNode} from '../../model/filters/Noop';
-import {EqualsNode} from '../../model/filters/Equals';
-import {AndNode} from '../../model/filters/And';
-import {IncludesNode} from '../../model/filters/Includes';
+import { FilterExpression } from '../../model/filters/ObjectNotationTypes';
+import { INode } from '../../model/filters/INode';
+import { NoopNode } from '../../model/filters/Noop';
+import { EqualsNode } from '../../model/filters/Equals';
+import { AndNode } from '../../model/filters/And';
+import { IncludesNode } from '../../model/filters/Includes';
 
 type KnownKeys<T> = {
   [K in keyof T]: string extends K ? never : number extends K ? never : K;
@@ -34,7 +34,6 @@ export const convertToNode = (expression: FilterExpression): INode => {
 
   for (let i = 0; i < keys.length; i++) {
     const key = keys[i];
-    // @ts-ignore
     const value = (expression as any)[key];
     switch (key) {
       case 'equals':
@@ -46,8 +45,7 @@ export const convertToNode = (expression: FilterExpression): INode => {
         break;
 
       case 'and':
-        const childrenNodes = processLogicalNode(value as FilterExpression[]);
-        rootChildren.push(new AndNode(childrenNodes));
+        rootChildren.push(new AndNode(processLogicalNode(value as FilterExpression[])));
         break;
 
       default:

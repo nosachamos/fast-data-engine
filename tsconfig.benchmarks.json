@@ -7,12 +7,13 @@
   },
   "compilerOptions": {
     "target": "ES5",
-    "outDir": ".tmp",
+    "outDir": ".tmp-benchmarks",
     "rootDir": "src",
     "moduleResolution": "node",
     "module": "ES2020",
     "declaration": true,
     "inlineSourceMap": false,
+    "resolveJsonModule": true,
     "esModuleInterop": true /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */,
     "skipLibCheck": true,
     "strict": true /* Enable all strict type-checking options. */,
@@ -41,11 +42,11 @@
     // "experimentalDecorators": true /* Enables experimental support for ES7 decorators. */,
     // "emitDecoratorMetadata": true /* Enables experimental support for emitting type metadata for decorators. */,
 
-    "lib": ["es2017", "dom", "WebWorker"],
+    "lib": ["es2017", "dom"],
     "types": ["node", "jest"],
     "typeRoots": ["node_modules/@types", "src/types"]
   },
-  "include": ["src"],
+  "include": ["src/benchmarks"],
     "exclude": [
         "node_modules",
         "**/src/tests/benchmarks/"

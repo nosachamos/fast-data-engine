@@ -15,7 +15,6 @@ module.exports = {
             commonjs: 'react',
             amd: 'react'
         },
-        validator: 'validator'
     },
     module: {
         rules: [
