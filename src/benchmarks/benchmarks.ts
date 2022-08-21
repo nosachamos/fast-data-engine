@@ -1,35 +1,101 @@
 import { FastDataEngine } from '../FastDataEngine';
-import * as fs from 'fs';
-import * as path from 'path';
 import { Row } from '../tests/benchmarks/GeneratorTypes';
+import {FilterExpression} from "../model/filters/ObjectNotationTypes";
 
-type HRTime = [number, number];
-const convertTimeToMillis = (time: HRTime) => {
-  const [timeSec, timeNs] = time;
-  return (timeSec * 1e9 + timeNs) / 1e6;
-};
+const timeInMillis = (start: number, end: number) => (end - start).toFixed(3);
 
-function parseHrtimeToMilliseconds(start: HRTime, end: HRTime) {
-  return (convertTimeToMillis(end) - convertTimeToMillis(start)).toFixed(3);
+const makeRepeated = (arr: Row[], repeats: number) => Array.from({length: repeats}, () => arr).flat();
+
+const prepareData = (data: Row[], repeatTestData: number = 1) => {
+    const dataLoadStart = performance.now();
+    data = makeRepeated(data, repeatTestData);
+    console.log(`Loaded ${data.length} data rows,${timeInMillis(dataLoadStart, performance.now())}`);
+    return data;
 }
 
-export const runBenchmarks = async (dataFile: string) => {
-  console.log(__dirname);
-  console.log('Loading data...');
-  let data: Row[] = JSON.parse(fs.readFileSync(path.resolve(__dirname, dataFile)).toString());
-  const makeRepeated = (arr: Row[], repeats: number) => Array.from({ length: repeats }, () => arr).flat();
-  data = makeRepeated(data, 4);
-  console.log(`Loaded ${data.length} rows.`);
+const runSingleBenchmark = (title: string, engine: FastDataEngine, condition: FilterExpression) => {
+    const start = performance.now();
+    const result = engine.filter(condition);
+    console.log(`>> ${title},${timeInMillis(start, performance.now())} + ${result.length}`);
+}
 
-  const start = process.hrtime();
-  const condition = { includes: { field: 'firstName', value: 'A' } };
-  const engine = new FastDataEngine(data);
+// @ts-ignore
+window.runBenchmarks = function (data: Row[], repeatTestData = 1, numberOfRuns = 10) {
+    data = prepareData(data, repeatTestData);
 
-  const result = engine.filter(condition);
-  const end = process.hrtime();
+    const engine = new FastDataEngine(data);
+    for (let i = 0; i < numberOfRuns; i++) {
+        console.log(`\n====== STARTING RUN #${i} ======`)
+        // logic expressions
+        runSingleBenchmark('And expression filter - 2 terms', engine, {
+            and: [{equals: {field: 'firstName', value: 'Zion'}}, {includes: {field: 'firstName', value: 'i'}}]
+        });
+        runSingleBenchmark('And expression filter - 8 terms', engine, {
+            and: [
+                {includes: {field: 'firstName', value: 'a', ignoreCase: true}},
+                {greaterThanOrEquals: {field: 'gpa', value: 0.5}},
+                {lessThanOrEquals: {field: 'gpa', value: 4.5}},
+                {lessThan: {field: 'age', value: 95}},
+                {greaterThan: {field: 'age', value: 5}},
+                {equals: {field: 'optionalCode', value: null}},
+                {equals: {field: 'eligible', value: true}}
+            ]
+        });
 
-  console.log(`Duration: ${parseHrtimeToMilliseconds(start, end)}ms`);
-  console.log(`Result length: ${result.length}`);
-};
+        runSingleBenchmark('Or expression filter - 2 terms', engine, {
+            or: [{equals: {field: 'firstName', value: 'Zion'}}, {includes: {field: 'firstName', value: 'i'}}]
+        });
+        runSingleBenchmark('Or expression filter - 8 terms', engine, {
+            or: [
+                {includes: {field: 'firstName', value: 'a', ignoreCase: true}},
+                {greaterThanOrEquals: {field: 'gpa', value: 4.5}},
+                {lessThanOrEquals: {field: 'gpa', value: 0.5}},
+                {lessThan: {field: 'age', value: 2}},
+                {greaterThan: {field: 'age', value: 98}},
+                {equals: {field: 'optionalCode', value: null}},
+                {equals: {field: 'eligible', value: true}}
+            ]
+        });
 
-runBenchmarks('../../src/tests/benchmarks/generated_data/data_500000.json');
+        runSingleBenchmark('Xor expression filter - 2 terms', engine, {
+            xor: [{equals: {field: 'firstName', value: 'Zion'}}, {includes: {field: 'firstName', value: 'i'}}]
+        });
+        runSingleBenchmark('Xor expression filter - 8 terms', engine, {
+            xor: [
+                {includes: {field: 'firstName', value: 'a', ignoreCase: true}},
+                {greaterThanOrEquals: {field: 'gpa', value: 4.95}},
+                {lessThanOrEquals: {field: 'gpa', value: 0.1}},
+                {lessThan: {field: 'age', value: 1}},
+                {greaterThan: {field: 'age', value: 98}},
+                {equals: {field: 'optionalCode', value: null}},
+                {equals: {field: 'eligible', value: true}}
+            ]
+        });
+
+        // string filters
+        runSingleBenchmark('Single equals string filter', engine, {equals: {field: 'firstName', value: 'Zion'}});
+        runSingleBenchmark('Single equals numeric filter', engine, {equals: {field: 'age', value: 20}});
+        runSingleBenchmark('Single equals boolean filter', engine, {equals: {field: 'eligible', value: true}});
+        runSingleBenchmark('Single equals null filter', engine, {equals: {field: 'optionalCode', value: null}});
+        runSingleBenchmark('Single starts with filter', engine, {startsWith: {field: 'firstName', value: 'A'}});
+        runSingleBenchmark('Single ends with filter', engine, {endsWith: {field: 'firstName', value: 'n'}});
+        runSingleBenchmark('Single includes string filter', engine, {includes: {field: 'firstName', value: 'A'}});
+        runSingleBenchmark('Single matches filter', engine, {matches: {field: 'firstName', value: '^a.*[a-z]$', ignoreCase: true}});
+
+        // numeric filters
+        runSingleBenchmark('Greater than filter', engine, {greaterThan: {field: 'gpa', value: 3}});
+        runSingleBenchmark('Greater than or equals filter', engine, {greaterThanOrEquals: {field: 'gpa', value: 3}});
+        runSingleBenchmark('Less than filter', engine, {lessThan: {field: 'gpa', value: 2}});
+        runSingleBenchmark('Less than or equals filter', engine, {lessThanOrEquals: {field: 'gpa', value: 2}});
+
+        // boolean filters
+        runSingleBenchmark('isTrue filter', engine, {isTrue: 'eligible'});
+        runSingleBenchmark('isFalse filter', engine, {isFalse: 'eligible'});
+
+        // other filters
+        runSingleBenchmark('isDefined filter', engine, {isDefined: 'optionalCode'});
+    }
+}
+
+// @ts-ignore
+console.log(window.runBenchmarks);

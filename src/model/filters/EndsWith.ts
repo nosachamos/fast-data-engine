@@ -2,8 +2,8 @@ import {SupportedDataTypes} from './ObjectNotationTypes';
 import {JsonRow} from '../JsonRow';
 import {INode} from './INode';
 
-export class EqualsNode implements INode {
-    // TODO benchmark creating a different node for each value data type to avoid type checks
+export class EndsWith implements INode {
+
     constructor(private fieldName: string, private value: SupportedDataTypes, private ignoreCase = false) {
     }
 
@@ -11,17 +11,20 @@ export class EqualsNode implements INode {
     filter = (row: JsonRow): boolean => {
         const rowValue = row[this.fieldName];
 
-        if (this.ignoreCase) {
-            // TODO: benchmark checking each char and lowering case only if letter does not match
-            if (typeof rowValue === 'string' && typeof this.value === 'string') {
-                return (rowValue as string).toLowerCase() === this.value.toLowerCase();
-            }
+        if (typeof rowValue !== 'string' || typeof this.value !== 'string') {
+            return false;
         }
 
-        return rowValue === this.value;
+        if (this.ignoreCase) {
+            // TODO: benchmark checking each char and lowering case only if letter does not match
+            return (rowValue as string).toLowerCase().endsWith(this.value.toLowerCase());
+        }
+
+
+        return rowValue.endsWith(this.value);
     };
 }
 
-export const equals = (fieldName: string, value: SupportedDataTypes, ignoreCase = false): INode => {
-    return new EqualsNode(fieldName, value, ignoreCase);
+export const endsWith = (fieldName: string, value: SupportedDataTypes, ignoreCase = false): INode => {
+    return new EndsWith(fieldName, value, ignoreCase);
 };

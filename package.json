@@ -28,7 +28,7 @@
         "build:ts": "tsc -p tsconfig.json",
         "build:js": "webpack --config webpack.config.js --mode production && webpack --config webpack.min.config.js --mode production",
         "build:copy-types": "cp .tmp/*.d.ts build",
-        "build:benchmarks": "tsc -p tsconfig.benchmarks.json && webpack --config webpack.bechmarks.min.config.js --mode development",
+        "build:benchmarks": "tsc -p tsconfig.benchmarks.json && webpack --config webpack.bechmark-runner.min.config.js --mode development && webpack --config webpack.bechmarks.min.config.js --mode development",
         "prepare": "run-s prepare:*",
         "prepare:generate-barrels": "barrelsby --directory src --exclude src/tests/** --exclude src/benchmarks/benchmarks.ts --singleQuotes --delete",
         "prepare:generate-changelog": "auto-changelog -p --ignore-commit-pattern \"update changelog, fix linting, regenerate barrels\"",

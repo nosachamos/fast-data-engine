@@ -1,77 +1,93 @@
 export type SupportedDataTypes = string | number | boolean | null | undefined;
 
 export type BinaryExpressionValue<O, V> = {
-  field: O;
-  value: V;
+    field: O;
+    value: V;
+};
+export type StringBinaryExpressionValue<O, V> = BinaryExpressionValue<O, V> & {
+    ignoreCase?: boolean;
 };
 
 type UnaryExpressionValue = string;
 
 interface isDefinedExpression {
-  isDefined: UnaryExpressionValue;
+    isDefined: UnaryExpressionValue;
 }
+
 interface EqualsExpression {
-  equals: BinaryExpressionValue<string, SupportedDataTypes>;
+    equals: StringBinaryExpressionValue<string, SupportedDataTypes>;
 }
+
 interface IncludesExpression {
-  includes: BinaryExpressionValue<string, string>;
+    includes: StringBinaryExpressionValue<string, string>;
 }
+
 interface MatchesExpression {
-  matches: BinaryExpressionValue<string, string | RegExp>;
+    matches: StringBinaryExpressionValue<string, string | RegExp>;
 }
+
 interface StartsWithExpression {
-  startsWith: BinaryExpressionValue<string, string>;
+    startsWith: StringBinaryExpressionValue<string, string>;
 }
+
 interface EndsWithExpression {
-  endsWith: BinaryExpressionValue<string, string>;
+    endsWith: StringBinaryExpressionValue<string, string>;
 }
+
 interface GreaterThanExpression {
-  greaterThan: BinaryExpressionValue<string, number>;
+    greaterThan: BinaryExpressionValue<string, number>;
 }
+
 interface GreaterThanOrEqualsExpression {
-  greaterThanOrEquals: BinaryExpressionValue<string, number>;
+    greaterThanOrEquals: BinaryExpressionValue<string, number>;
 }
+
 interface LessThanExpression {
-  lessThan: BinaryExpressionValue<string, number>;
+    lessThan: BinaryExpressionValue<string, number>;
 }
+
 interface LessThanOrEqualsExpression {
-  lessThanOrEquals: BinaryExpressionValue<string, number>;
+    lessThanOrEquals: BinaryExpressionValue<string, number>;
 }
+
 interface isTrueExpression {
-  isTrue: UnaryExpressionValue;
+    isTrue: UnaryExpressionValue;
 }
+
 interface isFalseExpression {
-  isFalse: UnaryExpressionValue;
+    isFalse: UnaryExpressionValue;
 }
 
 interface AndExpression {
-  and: [FilterExpression, FilterExpression, ...FilterExpression[]];
+    and: [FilterExpression, FilterExpression, ...FilterExpression[]];
 }
+
 interface OrExpression {
-  or: [FilterExpression, FilterExpression, ...FilterExpression[]];
+    or: [FilterExpression, FilterExpression, ...FilterExpression[]];
 }
+
 interface XorExpression {
-  xor: [FilterExpression, FilterExpression, ...FilterExpression[]];
+    xor: [FilterExpression, FilterExpression, ...FilterExpression[]];
 }
 
 interface NotExpression {
-  not: FilterExpression;
+    not: FilterExpression;
 }
 
 export type FilterExpression =
-  | NotExpression
-  | isDefinedExpression
-  | EqualsExpression
-  | IncludesExpression
-  | MatchesExpression
-  | StartsWithExpression
-  | EndsWithExpression
-  | GreaterThanExpression
-  | GreaterThanOrEqualsExpression
-  | LessThanExpression
-  | LessThanOrEqualsExpression
-  | isTrueExpression
-  | isFalseExpression
-  | AndExpression
-  | OrExpression
-  | XorExpression;
+    | NotExpression
+    | isDefinedExpression
+    | EqualsExpression
+    | IncludesExpression
+    | MatchesExpression
+    | StartsWithExpression
+    | EndsWithExpression
+    | GreaterThanExpression
+    | GreaterThanOrEqualsExpression
+    | LessThanExpression
+    | LessThanOrEqualsExpression
+    | isTrueExpression
+    | isFalseExpression
+    | AndExpression
+    | OrExpression
+    | XorExpression;
