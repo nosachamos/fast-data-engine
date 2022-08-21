@@ -72,6 +72,10 @@ window.runBenchmarks = function (data: Row[], repeatTestData = 1, numberOfRuns =
             ]
         });
 
+        runSingleBenchmark('Not expression filter', engine, {
+            not: {equals: {field: 'firstName', value: 'Zion'}}
+        });
+
         // string filters
         runSingleBenchmark('Single equals string filter', engine, {equals: {field: 'firstName', value: 'Zion'}});
         runSingleBenchmark('Single equals numeric filter', engine, {equals: {field: 'age', value: 20}});
