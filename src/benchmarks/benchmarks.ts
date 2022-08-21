@@ -1,5 +1,5 @@
-import { FastDataEngine } from '../FastDataEngine';
-import { Row } from '../tests/benchmarks/GeneratorTypes';
+import {FastDataEngine} from '../FastDataEngine';
+import {Row} from '../tests/benchmarks/GeneratorTypes';
 import {FilterExpression} from "../model/filters/ObjectNotationTypes";
 
 const timeInMillis = (start: number, end: number) => (end - start).toFixed(3);
@@ -80,7 +80,13 @@ window.runBenchmarks = function (data: Row[], repeatTestData = 1, numberOfRuns =
         runSingleBenchmark('Single starts with filter', engine, {startsWith: {field: 'firstName', value: 'A'}});
         runSingleBenchmark('Single ends with filter', engine, {endsWith: {field: 'firstName', value: 'n'}});
         runSingleBenchmark('Single includes string filter', engine, {includes: {field: 'firstName', value: 'A'}});
-        runSingleBenchmark('Single matches filter', engine, {matches: {field: 'firstName', value: '^a.*[a-z]$', ignoreCase: true}});
+        runSingleBenchmark('Single matches filter', engine, {
+            matches: {
+                field: 'firstName',
+                value: '^a.*[a-z]$',
+                ignoreCase: true
+            }
+        });
 
         // numeric filters
         runSingleBenchmark('Greater than filter', engine, {greaterThan: {field: 'gpa', value: 3}});

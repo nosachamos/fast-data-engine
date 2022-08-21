@@ -7,7 +7,7 @@ export const server = (req: IncomingMessage, res: ServerResponse) => {
     console.log(`${req.method} ${req.url}`);
 
     const {url} = req;
-    if(!url) {
+    if (!url) {
         throw new Error('Unable to serve request: no URL.');
     }
 

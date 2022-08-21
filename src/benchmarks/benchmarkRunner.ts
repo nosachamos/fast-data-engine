@@ -79,7 +79,7 @@ export const benchmarkRunner = async () => {
             if (timings.has(title)) {
                 timings.get(title)?.push((duration));
             } else {
-                timings.set(title,[duration]);
+                timings.set(title, [duration]);
             }
         }
         console.log('[' + msg.type() + '] - ' + msg.text());
