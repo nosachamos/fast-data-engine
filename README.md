@@ -46,6 +46,26 @@ Provide your data in `json` format, and you're all set.
 
 Now call the `group()` and `filter()` functions to configure how you want your data.
 
+# Dev
+
+Generate test data
+
+```sh
+yarn benchmark:generate:data
+```
+
+Run benchmarks
+
+```sh
+yarn build:benchmarks && node -e 'require("./build/benchmarks/benchmark-runner.min.js")'
+```
+
+Start documentation site locally
+
+```sh
+docsify serve docs
+```
+
 
 # Benchmarking
 
