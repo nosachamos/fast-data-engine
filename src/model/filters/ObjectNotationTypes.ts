@@ -18,6 +18,10 @@ interface EqualsExpression {
     equals: StringBinaryExpressionValue<string, SupportedDataTypes>;
 }
 
+interface InListExpression {
+    inList: StringBinaryExpressionValue<string, SupportedDataTypes[]>;
+}
+
 interface IncludesExpression {
     includes: StringBinaryExpressionValue<string, string>;
 }
@@ -75,6 +79,7 @@ interface NotExpression {
 }
 
 export type FilterExpression =
+    | InListExpression
     | NotExpression
     | isDefinedExpression
     | EqualsExpression

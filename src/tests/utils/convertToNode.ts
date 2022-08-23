@@ -16,6 +16,8 @@ import {IsFalseNode} from "../../model/filters/IsFalse";
 import {IsDefinedNode} from "../../model/filters/IsDefined";
 import {StartsWith} from "../../model/filters/StartsWith";
 import {EndsWith} from "../../model/filters/EndsWith";
+import {NotNode} from "../../model/filters/Not";
+import {InListNode} from "../../model/filters/InList";
 
 type KnownKeys<T> = {
     [K in keyof T]: string extends K ? never : number extends K ? never : K;
@@ -96,6 +98,10 @@ export const convertToNode = (expression: FilterExpression): INode => {
                 rootChildren.push(new LessThanOrEqualsNode(value.field, value.value));
                 break;
 
+            case 'inList':
+                rootChildren.push(new InListNode(value.field, value.value, value.ignoreCase));
+                break;
+
             case 'and':
                 rootChildren.push(new AndNode(processLogicalNode(value as FilterExpression[])));
                 break;
@@ -106,6 +112,10 @@ export const convertToNode = (expression: FilterExpression): INode => {
 
             case 'xor':
                 rootChildren.push(new XorNode(processLogicalNode(value as FilterExpression[])));
+                break;
+
+            case 'not':
+                rootChildren.push(new NotNode(convertToNode(value as FilterExpression)));
                 break;
 
             default:

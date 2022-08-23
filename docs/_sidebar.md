@@ -1,2 +1,3 @@
 - [Getting Started](home.md)
 - [Filters](filters.md)
+- [Benchmarks](benchmarks.md)

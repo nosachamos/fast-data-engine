@@ -92,6 +92,27 @@ window.runBenchmarks = function (data: Row[], repeatTestData = 1, numberOfRuns =
             }
         });
 
+        // list filters
+        runSingleBenchmark('In list string filter - 5 items', engine, {
+            inList: {
+                field: 'firstName',
+                value: ['John', 'Mary', 'Albert', 'Michelle', 'Karen']
+            }
+        });
+        runSingleBenchmark('In list string filter - case insensitive - 5 items', engine, {
+            inList: {
+                field: 'firstName',
+                value: ['john', 'mary', 'albert', 'michelle', 'karen'],
+                ignoreCase: true
+            }
+        });
+        runSingleBenchmark('In list numeric filter - 10 items', engine, {
+            inList: {
+                field: 'age',
+                value: [1, 4, 2, 8, 3, 10, 40, 45, 47, 50]
+            }
+        });
+
         // numeric filters
         runSingleBenchmark('Greater than filter', engine, {greaterThan: {field: 'gpa', value: 3}});
         runSingleBenchmark('Greater than or equals filter', engine, {greaterThanOrEquals: {field: 'gpa', value: 3}});

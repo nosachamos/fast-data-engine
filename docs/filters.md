@@ -35,20 +35,21 @@ const result = engine.filter(condition);
 
 You can use the following comparison operators when filtering:
 
-| Operator          | Description                                                           | Supported data types                  |
-|-------------------|-----------------------------------------------------------------------|---------------------------------------|
-| `equals`          | Field must match exactly.                                             | `string`, `number`, `boolean`, `null` |
-| `matches`         | Match a given regular expression.                                     | `string`                              |
-| `isDefined`       | Includes element if the given field is not `null` or missing.         | `string`, `number`, `boolean`, `null` |
- | `includes`        | Field must include the given value anywhere in its value.             | `string`                              |
-| `startsWith`      | Field must start with the given value.                                | `string`                              |
-| `endsWith`        | Field must start with the given value.                                | `string`                              |
-| `greaterThan`     | Field value must be greater than the given filter value.              | `number`                              |
+| Operator          | Description                                                             | Supported data types                  |
+|-------------------|-------------------------------------------------------------------------|---------------------------------------|
+| `equals`          | Field must match exactly.                                               | `string`, `number`, `boolean`, `null` |
+| `matches`         | Match a given regular expression.                                       | `string`                              |
+| `isDefined`       | Includes element if the given field is not `null` or missing.           | `string`, `number`, `boolean`, `null` |
+ | `includes`        | Field must include the given value anywhere in its value.               | `string`                              |
+| `startsWith`      | Field must start with the given value.                                  | `string`                              |
+| `endsWith`        | Field must start with the given value.                                  | `string`                              |
+| `greaterThan`     | Field value must be greater than the given filter value.                | `number`                              |
 | `greaterOrEquals` | Field value must be greater than or operators to the given filter value. | `number`                              |
-| `lessThan`        | Field value must be less than the given filter value.                 | `number`                              |
-| `lessOrEquals`    | Field value must be less than or operators to the given filter value.    | `number`                              |
-| `isTrue`          | Field value must be operators to `true`.                                 | `boolean`                             |
-| `isFalse`         | Field value must be operators to `false`.                                | `boolean`                             |
+| `lessThan`        | Field value must be less than the given filter value.                   | `number`                              |
+| `lessOrEquals`    | Field value must be less than or operators to the given filter value.   | `number`                              |
+| `isTrue`          | Field value must be operators to `true`.                                | `boolean`                             |
+| `isFalse`         | Field value must be operators to `false`.                               | `boolean`                             |
+| `inList`              | Field value must match exactly any of the items in the given list.  | `string`, `number`, `boolean`, `null` |
 
 You can also combine them using the following logical operators:
 
@@ -61,7 +62,7 @@ As well as negate any expression using the `not` operator.
 ### Examples
 
 ```ts
-const condition = and(startsWith('firstName', 'Al'), not(operators('lastName', 'Roberts')));
+const condition = and(startsWith('firstName', 'Al'), not(equals('lastName', 'Roberts')));
 ```
 
 Will return only records whose first name starts with `Al` and last name is not operators to `Roberts`.

@@ -1,8 +1,11 @@
 import * as puppeteer from 'puppeteer';
 import http from "http";
 import {server} from "./dataServer";
+import path from "path";
+import fs from "fs";
+import os from 'os';
 
-const REMOVE_TOP_SLOWEST = 2;
+const REMOVE_TOP_SLOWEST = 0;
 
 const pageContent = `
     <head><title>Benchmark</title></head>
@@ -26,7 +29,8 @@ const pageContent = `
         }
     </script>
     <script>
-        const NUM_RUNS = 10;
+        const REPEAT_DATA = 1;  // max 200
+        const NUM_RUNS = 1;
         const timeInMillis = (start, end) => {
             return (end - start).toFixed(3);
         };
@@ -45,7 +49,7 @@ const pageContent = `
                     console.log('Loading json took ' + timeInMillis(dataLoadStart, performance.now()) + 'ms');
                     
                     try {
-                        await runBenchmarks(out, 10, NUM_RUNS);
+                        await runBenchmarks(out, REPEAT_DATA, NUM_RUNS);
                     } catch (e) {
                         console.error(e.message);
                     }
@@ -64,8 +68,25 @@ export const benchmarkRunner = async () => {
     // await http.createServer(server).listen(9876);
     const fileServer = await http.createServer(server).listen(9876);
 
+    const humanFileSize = (bytes: number, precision=2) => {
+        if (Math.abs(bytes) < 1024) {
+            return bytes + ' B';
+        }
+
+        const units = ['kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+        let u = -1;
+        const r = 10**precision;
+
+        do {
+            bytes /= 1024;
+            ++u;
+        } while (Math.round(Math.abs(bytes) * r) / r >= 1024 && u < units.length - 1);
+
+        return bytes.toFixed(precision) + ' ' + units[u];
+    }
+
     const browser = await puppeteer.launch({
-        headless: true,
+        headless: false,
         args: ['--disable-web-security'],
     });
 
@@ -101,6 +122,20 @@ export const benchmarkRunner = async () => {
             timings.forEach((v, k) => {
                 console.log(`\t${k}: ` + average(v).toFixed(3));
             });
+
+            // update documentation with the latest results
+            const benchmarksTemplatePath = path.join(__dirname, '../../docs/benchmarks_template.md');
+            let benchmarksTemplate = fs.readFileSync(benchmarksTemplatePath, 'utf8');
+
+            const browserVersion = await page.browser().version();
+            const osDetails = `${os.platform()} - ${os.arch()} - ${os.release()}`;
+            const machineDetails = `${os.cpus()[0].model} [${os.cpus()[0].times}, ${os.cpus().length} threads] CPUs, ${humanFileSize(os.totalmem())} of memory`;
+
+            benchmarksTemplate = benchmarksTemplate.replace('%CHROME_VERSION%', browserVersion);
+            benchmarksTemplate = benchmarksTemplate.replace('%OS_DETAILS%', osDetails);
+            benchmarksTemplate = benchmarksTemplate.replace('%MACHINE_DETAILS%', machineDetails);
+
+            fs.writeFileSync(path.join(__dirname, '../../docs/benchmarks.md'), benchmarksTemplate);
 
             await browser.close();
             await fileServer.close();
