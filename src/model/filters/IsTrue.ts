@@ -1,12 +1,13 @@
 import {JsonRow} from '../JsonRow';
 import {INode} from './INode';
+import {ValueAccessor} from "./ObjectNotationTypes";
 
 export class IsTrueNode implements INode {
-    constructor(private fieldName: string) {
+    constructor(private valueAccessor: ValueAccessor, private fieldName: string) {
     }
 
     filter = (row: JsonRow): boolean => {
-        const rowValue = row[this.fieldName];
+        const rowValue = this.valueAccessor(row, this.fieldName);
 
         if (typeof rowValue !== 'boolean') {
             return false;
@@ -15,7 +16,3 @@ export class IsTrueNode implements INode {
         return rowValue;
     };
 }
-
-export const isTrue = (fieldName: string): INode => {
-    return new IsTrueNode(fieldName);
-};

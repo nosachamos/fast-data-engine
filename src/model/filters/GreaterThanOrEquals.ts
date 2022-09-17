@@ -1,12 +1,13 @@
 import {JsonRow} from '../JsonRow';
 import {INode} from './INode';
+import {ValueAccessor} from "./ObjectNotationTypes";
 
 export class GreaterThanOrEqualsNode implements INode {
-    constructor(private fieldName: string, private value: number) {
+    constructor(private valueAccessor: ValueAccessor, private fieldName: string, private value: number) {
     }
 
     filter = (row: JsonRow): boolean => {
-        const rowValue = row[this.fieldName];
+        const rowValue = this.valueAccessor(row, this.fieldName);
 
         if (typeof rowValue !== 'number') {
             return false;
@@ -15,7 +16,3 @@ export class GreaterThanOrEqualsNode implements INode {
         return rowValue >= this.value;
     };
 }
-
-export const greaterThanOrEquals = (fieldName: string, value: number): INode => {
-    return new GreaterThanOrEqualsNode(fieldName, value);
-};

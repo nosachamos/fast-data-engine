@@ -1,6 +1,6 @@
 {
     "name": "fast-data-engine",
-    "version": "0.0.1-alpha-1",
+    "version": "0.0.1-alpha-3",
     "description": "Fast Data Engine is a blazing fast data grouping and filtering engine.",
     "main": "build/index.js",
     "typings": "build/index.d.ts",
@@ -154,7 +154,9 @@
         },
         "coverageDirectory": "./coverage/",
         "collectCoverageFrom": [
-            "src/{!(index),}.{js,ts}"
+            "src/**/{!(index),}.{js,ts}",
+            "!src/benchmarks/**/*",
+            "!src/tests/**/*"
         ]
     },
     "prettier": {

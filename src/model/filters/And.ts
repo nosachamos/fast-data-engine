@@ -15,7 +15,3 @@ export class AndNode implements INode {
         return true;
     };
 }
-
-export const and = (children: INode[]): INode => {
-    return new AndNode(children);
-};

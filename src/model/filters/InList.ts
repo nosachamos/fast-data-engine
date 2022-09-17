@@ -1,13 +1,13 @@
-import {SupportedDataTypes} from './ObjectNotationTypes';
+import {SupportedDataTypes, ValueAccessor} from './ObjectNotationTypes';
 import {JsonRow} from '../JsonRow';
 import {INode} from './INode';
 
 export class InListNode implements INode {
-    constructor(private fieldName: string, private value: SupportedDataTypes[], private ignoreCase = false) {
+    constructor(private valueAccessor: ValueAccessor, private fieldName: string, private value: SupportedDataTypes[], private ignoreCase = false) {
     }
 
     filter = (row: JsonRow): boolean => {
-        const rowValue = row[this.fieldName];
+        const rowValue = this.valueAccessor(row, this.fieldName);
 
         if (this.ignoreCase) {
             const rowValueIsStr = typeof rowValue === 'string';
@@ -31,7 +31,3 @@ export class InListNode implements INode {
         return false;
     };
 }
-
-export const inList = (fieldName: string, value: SupportedDataTypes[], ignoreCase = false): INode => {
-    return new InListNode(fieldName, value, ignoreCase);
-};

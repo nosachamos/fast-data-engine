@@ -1,87 +1,128 @@
-export type SupportedDataTypes = string | number | boolean | null | undefined;
+import {JsonRow} from "../JsonRow";
 
-export type BinaryExpressionValue<O, V> = {
-    field: O;
+export type SupportedDataTypes = string | number | boolean | null | undefined | object;
+
+export enum SupportedTypesOfs {
+    string = 'string',
+    number = 'number',
+    boolean = 'boolean',
+    object = 'object',
+    array = 'array',
+    null = 'null',
+    undefined = 'undefined'
+}
+
+export type ValueAccessor = (row: JsonRow, key: string) => SupportedDataTypes;
+
+export type FieldAccessor = {
+    field: string;
+}
+
+export type ObjectKeysAccessor = {
+    objectKeys: string;
+}
+
+export type ObjectValuesAccessor = {
+    objectValues: string;
+}
+
+export type ArrayLengthAccessor = {
+    arrayLength: string;
+}
+
+export type Accessor = FieldAccessor | ObjectKeysAccessor | ObjectValuesAccessor | ArrayLengthAccessor;
+
+export type BinaryExpressionValue<V> = {
     value: V;
 };
-export type StringBinaryExpressionValue<O, V> = BinaryExpressionValue<O, V> & {
+
+export type StringBinaryExpressionValue<V> = BinaryExpressionValue<V> & {
     ignoreCase?: boolean;
 };
 
 type UnaryExpressionValue = string;
 
-interface isDefinedExpression {
-    isDefined: UnaryExpressionValue;
-}
-
 interface EqualsExpression {
-    equals: StringBinaryExpressionValue<string, SupportedDataTypes>;
+    equals: Accessor & StringBinaryExpressionValue<SupportedDataTypes>;
 }
 
 interface InListExpression {
-    inList: StringBinaryExpressionValue<string, SupportedDataTypes[]>;
+    inList: (FieldAccessor | ArrayLengthAccessor) & StringBinaryExpressionValue<SupportedDataTypes[]>;
+}
+
+interface InArrayExpression {
+    inArray: (ObjectKeysAccessor | ObjectValuesAccessor | FieldAccessor) & StringBinaryExpressionValue<SupportedDataTypes>;
 }
 
 interface IncludesExpression {
-    includes: StringBinaryExpressionValue<string, string>;
+    includes: FieldAccessor & StringBinaryExpressionValue<string>;
 }
 
 interface MatchesExpression {
-    matches: StringBinaryExpressionValue<string, string | RegExp>;
+    matches: FieldAccessor & StringBinaryExpressionValue<string | RegExp>;
 }
 
 interface StartsWithExpression {
-    startsWith: StringBinaryExpressionValue<string, string>;
+    startsWith: FieldAccessor & StringBinaryExpressionValue<string>;
 }
 
 interface EndsWithExpression {
-    endsWith: StringBinaryExpressionValue<string, string>;
+    endsWith: FieldAccessor & StringBinaryExpressionValue<string>;
+}
+
+interface TypeOfExpression {
+    typeOf: FieldAccessor & BinaryExpressionValue<SupportedTypesOfs>;
 }
 
 interface GreaterThanExpression {
-    greaterThan: BinaryExpressionValue<string, number>;
+    greaterThan: (FieldAccessor | ArrayLengthAccessor) & BinaryExpressionValue<number>;
 }
 
 interface GreaterThanOrEqualsExpression {
-    greaterThanOrEquals: BinaryExpressionValue<string, number>;
+    greaterThanOrEquals: (FieldAccessor | ArrayLengthAccessor) & BinaryExpressionValue<number>;
 }
 
 interface LessThanExpression {
-    lessThan: BinaryExpressionValue<string, number>;
+    lessThan: (FieldAccessor | ArrayLengthAccessor) & BinaryExpressionValue<number>;
 }
 
 interface LessThanOrEqualsExpression {
-    lessThanOrEquals: BinaryExpressionValue<string, number>;
+    lessThanOrEquals: (FieldAccessor | ArrayLengthAccessor) & BinaryExpressionValue<number>;
 }
 
-interface isTrueExpression {
+interface IsDefinedExpression {
+    isDefined: UnaryExpressionValue;
+}
+
+interface IsTrueExpression {
     isTrue: UnaryExpressionValue;
 }
 
-interface isFalseExpression {
+interface IsFalseExpression {
     isFalse: UnaryExpressionValue;
 }
 
 interface AndExpression {
-    and: [FilterExpression, FilterExpression, ...FilterExpression[]];
+    and: FilterExpression[];
 }
 
 interface OrExpression {
-    or: [FilterExpression, FilterExpression, ...FilterExpression[]];
+    or: FilterExpression[];
 }
 
 interface XorExpression {
-    xor: [FilterExpression, FilterExpression, ...FilterExpression[]];
+    xor: FilterExpression[];
 }
 
 interface NotExpression {
     not: FilterExpression;
 }
 
-export type FilterExpression =
+export type FilterExpression = Record<string, never>
     | InListExpression
+    | InArrayExpression
     | NotExpression
-    | isDefinedExpression
+    | IsDefinedExpression
     | EqualsExpression
     | IncludesExpression
     | MatchesExpression
@@ -91,8 +132,9 @@ export type FilterExpression =
     | GreaterThanOrEqualsExpression
     | LessThanExpression
     | LessThanOrEqualsExpression
-    | isTrueExpression
-    | isFalseExpression
+    | IsTrueExpression
+    | IsFalseExpression
+    | TypeOfExpression
     | AndExpression
     | OrExpression
     | XorExpression;

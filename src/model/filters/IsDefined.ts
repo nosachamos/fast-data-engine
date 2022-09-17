@@ -1,17 +1,14 @@
 import {JsonRow} from '../JsonRow';
 import {INode} from './INode';
+import {ValueAccessor} from "./ObjectNotationTypes";
 
 export class IsDefinedNode implements INode {
-    constructor(private fieldName: string) {
+    constructor(private valueAccessor: ValueAccessor, private fieldName: string) {
     }
 
     filter = (row: JsonRow): boolean => {
-        const rowValue = row[this.fieldName];
+        const rowValue = this.valueAccessor(row, this.fieldName);
 
-        return !(typeof rowValue === undefined || rowValue === null);
+        return !(typeof rowValue === 'undefined' || rowValue === null);
     };
 }
-
-export const isDefined = (fieldName: string): INode => {
-    return new IsDefinedNode(fieldName);
-};

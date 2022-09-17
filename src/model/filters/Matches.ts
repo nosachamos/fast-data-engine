@@ -1,16 +1,19 @@
 import {JsonRow} from '../JsonRow';
 import {INode} from './INode';
+import {ValueAccessor} from "./ObjectNotationTypes";
 
 export class MatchesNode implements INode {
     regex: RegExp;
 
-    constructor(private fieldName: string, value: string, ignoreCase = false) {
-        this.regex = new RegExp(value, ignoreCase ? 'i' : undefined);
+    constructor(private valueAccessor: ValueAccessor, private fieldName: string, value: string | RegExp, ignoreCase = false) {
+        this.regex = value instanceof RegExp
+            ? value
+            : new RegExp(value, ignoreCase ? 'i' : undefined);
     }
 
     // TODO: benchmark without arrow functions
     filter = (row: JsonRow): boolean => {
-        const rowValue = row[this.fieldName];
+        const rowValue = this.valueAccessor(row, this.fieldName);
 
         if (typeof rowValue !== 'string') {
             return false;
@@ -19,7 +22,3 @@ export class MatchesNode implements INode {
         return this.regex.test(rowValue);
     };
 }
-
-export const matches = (fieldName: string, value: string, ignoreCase = false): INode => {
-    return new MatchesNode(fieldName, value, ignoreCase);
-};

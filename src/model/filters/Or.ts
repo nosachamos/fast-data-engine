@@ -14,7 +14,3 @@ export class OrNode implements INode {
         return false;
     };
 }
-
-export const or = (children: INode[]): INode => {
-    return new OrNode(children);
-};

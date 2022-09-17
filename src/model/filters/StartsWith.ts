@@ -1,15 +1,14 @@
-import {SupportedDataTypes} from './ObjectNotationTypes';
+import {SupportedDataTypes, ValueAccessor} from './ObjectNotationTypes';
 import {JsonRow} from '../JsonRow';
 import {INode} from './INode';
 
 export class StartsWith implements INode {
-
-    constructor(private fieldName: string, private value: SupportedDataTypes, private ignoreCase = false) {
+    constructor(private valueAccessor: ValueAccessor, private fieldName: string, private value: SupportedDataTypes, private ignoreCase = false) {
     }
 
     // TODO: benchmark without arrow functions
     filter = (row: JsonRow): boolean => {
-        const rowValue = row[this.fieldName];
+        const rowValue = this.valueAccessor(row, this.fieldName);
 
         if (typeof rowValue !== 'string' || typeof this.value !== 'string') {
             return false;
@@ -23,7 +22,3 @@ export class StartsWith implements INode {
         return rowValue.startsWith(this.value);
     };
 }
-
-export const startsWith = (fieldName: string, value: SupportedDataTypes, ignoreCase = false): INode => {
-    return new StartsWith(fieldName, value, ignoreCase);
-};

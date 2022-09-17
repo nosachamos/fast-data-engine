@@ -1,10 +1,12 @@
 import {dataGenerator} from './benchmarks/dataGenerator';
 import {FastDataEngine} from '../FastDataEngine';
 import {notationName} from './utils/notationName';
-import {convertToNode} from './utils/convertToNode';
+import {convertToNode} from '../model/filters/convertToNode';
+import {performBasicAssertions} from "./utils/performBasicAssertions";
 
-describe('Equals operator', () => {
+describe('equals operator', () => {
     const data = dataGenerator(10);
+    const engine = new FastDataEngine(data);
 
     (
         [
@@ -19,12 +21,24 @@ describe('Equals operator', () => {
 
         [convertToNode(condition), condition].forEach((expr, i) => {
             it(`filters ${dataType} correctly (${notationName(i)})`, () => {
-                const engine = new FastDataEngine(data);
                 const result = engine.filter(expr);
-                expect(result.length).toBe(resultsLength);
-                expect(result[0]['index']).toBe(firstIndex);
-                expect(Object.keys(result[0]).length).toBe(32);
+                performBasicAssertions(result, resultsLength, firstIndex);
             });
         });
     });
+
+    it('filters a string value correctly when ignoring case', () => {
+        const condition = {equals: {field: 'firstName', value: 'ZION', ignoreCase: true}};
+
+        const result = engine.filter(condition);
+        performBasicAssertions(result, 1, 0);
+    });
+
+    it('setting ignore case when filtering a non-string value does not impact filtering', () => {
+        const condition = {equals: {field: 'width', value: 1335.32, ignoreCase: true}};
+
+        const result = engine.filter(condition);
+        performBasicAssertions(result, 1, 0);
+    });
+
 });

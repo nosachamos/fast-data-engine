@@ -19,7 +19,3 @@ export class XorNode implements INode {
         return result;
     };
 }
-
-export const xor = (children: INode[]): INode => {
-    return new XorNode(children);
-};

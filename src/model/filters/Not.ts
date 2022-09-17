@@ -9,7 +9,3 @@ export class NotNode implements INode {
         return !this.child.filter(row);
     };
 }
-
-export const not = (child: INode): INode => {
-    return new NotNode(child);
-};
