@@ -29,11 +29,29 @@ npm install fast-data-engine --save
 
 # Sample Usage
 
-```jsx
-import { FastDataEngine } from 'nosachamos/fast-data-engine';
+```ts
+import { FastDataEngine } from 'fast-data-engine';
 
-//...
+// the data you want to filter, group, etc
+const data = [
+    { firstName: 'Mary', age: 10 },
+    { firstName: 'John', age: 20 },
+    { firstName: 'John', age: 30}
+]
 
+// filter by first name
+const condition = {
+    and: [
+        {equals: {field: 'firstName', value: 'John'}},
+        {greaterThan: {field: 'age', value: 25}}
+    ]
+};
+const {result } = FastDataEngine.filter(data, condition);
+
+console.log(result);
+
+// prints:
+// [{ firstName: 'John', age: 30 }]
 ```
 
 
@@ -71,8 +89,8 @@ docsify serve docs
 To add a new version to the set of benchmarks, create and push a new git tag:
 
 ```bash
-git tag 0.0.1-alpha-2
-git push origin 0.0.1-alpha-2
+git tag 1.0.4
+git push origin 1.0.4
 ```
 
 Then add the new tag to the list of benchmark versions inside the `run_benchmarks.sh` file:
@@ -80,7 +98,7 @@ Then add the new tag to the list of benchmark versions inside the `run_benchmark
 ```bash
 #!/bin/bash
 
-BENCHMARK_VERSIONS="0.0.1-alpha-1 0.0.1-alpha-2"
+BENCHMARK_VERSIONS="0.0.1-alpha-1 0.0.1-alpha-2 1.0.4"
 ```
 
 
@@ -88,39 +106,12 @@ BENCHMARK_VERSIONS="0.0.1-alpha-1 0.0.1-alpha-2"
 
 Contributions are very welcome!
 
-We follow the "fork-and-pull" Git workflow.
+We follow the "fork-and-pull" Git workflow. See the details [here](./CONTRIBUTING.md).
 
-1. **Create a Fork and clone it**
-
-   Simply click on the “fork” button of the repository page on GitHub.
-
-   The standard clone command creates a local git repository from your remote fork on GitHub.
-
-2. **Modify the Code**
-
-   In your local clone, modify the code and commit them to your local clone using the git commit command.
-
-   Run `yarn test` and make sure all tests still pass.
-
-   Run `eslint --project .` and make sure you get no warnings.
-
-3. **Push your Changes**
-
-   Make sure to update affected tests and/or add tests to any new features you may have created.
-
-   We are very careful to make sure coverage does not drop.
-
-4. **Create a Pull Request**
-
-   We will review your changes and possibly start a discussion.
-
-   If changes are required, you can simply push these changes into your fork by repeating steps #3 and #4 and the pull request is updated automatically.
 
 ## License
 
-Free for personal and open source projects.
-
-Details for commercial projects coming soon.
+MIT
 
 ---
 
