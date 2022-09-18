@@ -1,6 +1,6 @@
 {
     "name": "fast-data-engine",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "description": "Fast Data Engine is a blazing fast data filtering engine.",
     "main": "build/index.js",
     "typings": "build/index.d.ts",
