@@ -1,4 +1,4 @@
-import { FilterExpression } from './ObjectNotationTypes';
+import {FilterExpression} from './ObjectNotationTypes';
 import { INode } from './INode';
 import { NoopNode } from './Noop';
 import { EqualsNode } from './Equals';
@@ -52,8 +52,8 @@ export const convertToNode = (expression: FilterExpression): INode => {
 
   for (let i = 0; i < keys.length; i++) {
     const key = keys[i];
-    // @ts-ignore
-    const value = (expression as any)[key];
+    // @ts-expect-error: TS7053 - accessing key is safe here.
+    const value = expression[key];
 
     // more field accessors will be added in the future.
     const dataAccessor = new FieldAccessor();
