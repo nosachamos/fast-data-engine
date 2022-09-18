@@ -6,7 +6,6 @@ import {performBasicAssertions} from "./utils/performBasicAssertions";
 
 describe('and operator', () => {
     const data = dataGenerator(10);
-    const engine = new FastDataEngine(data);
     const condition = {
         and: [
             {includes: {field: 'firstName', value: 'Z'}},
@@ -16,7 +15,7 @@ describe('and operator', () => {
 
     [convertToNode(condition), condition].forEach((expr, i) => {
         it(`filters records correctly (${notationName(i)})`, () => {
-            const result = engine.filter(expr);
+            const { result } = FastDataEngine.filter(data, expr);
             performBasicAssertions(result, 1, 0);
         });
     });
@@ -27,7 +26,7 @@ describe('and operator', () => {
             endsWith: {field: 'firstName', value: 'on'}
         };
 
-        const result = engine.filter(condition);
+        const { result } = FastDataEngine.filter(data, condition);
         performBasicAssertions(result, 1, 0);
     });
 
@@ -39,7 +38,7 @@ describe('and operator', () => {
             ]
         };
 
-        const result = engine.filter(condition);
+        const { result } = FastDataEngine.filter(data, condition);
         expect(result.length).toBe(0);
     });
 
@@ -51,7 +50,7 @@ describe('and operator', () => {
             ]
         };
 
-        const result = engine.filter(condition);
+        const { result } = FastDataEngine.filter(data, condition);
         expect(result.length).toBe(0);
     });
 

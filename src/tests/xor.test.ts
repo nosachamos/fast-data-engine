@@ -6,7 +6,6 @@ import {performBasicAssertions} from "./utils/performBasicAssertions";
 
 describe('xor operator', () => {
     const data = dataGenerator(10);
-    const engine = new FastDataEngine(data);
     const condition = {
         xor: [
             {includes: {field: 'firstName', value: 'Z'}},  // will match
@@ -16,7 +15,7 @@ describe('xor operator', () => {
 
     [convertToNode(condition), condition].forEach((expr, i) => {
         it(`filters records correctly (${notationName(i)})`, () => {
-            const result = engine.filter(expr);
+            const { result } = FastDataEngine.filter(data, expr);
             performBasicAssertions(result, 1, 0);
         });
     });
@@ -29,7 +28,7 @@ describe('xor operator', () => {
             ]
         };
 
-        const result = engine.filter(condition);
+        const { result } = FastDataEngine.filter(data, condition);
         expect(result.length).toBe(0);
     });
 
@@ -41,7 +40,7 @@ describe('xor operator', () => {
             ]
         };
 
-        const result = engine.filter(condition);
+        const { result } = FastDataEngine.filter(data, condition);
         expect(result.length).toBe(0);
     });
 

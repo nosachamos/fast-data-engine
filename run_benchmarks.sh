@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BENCHMARK_VERSIONS="0.0.1-alpha-1 0.0.1-alpha-2"
+BENCHMARK_VERSIONS="0.0.1-alpha-2 1.0.0"
 
 rm -fr .benchmarks_tmp
 mkdir .benchmarks_tmp
@@ -12,7 +12,7 @@ for VERSION in $BENCHMARK_VERSIONS; do
 
   cd ./.benchmarks_tmp/$VERSION
 
-  git clone --depth 1 --branch $VERSION https://nosachamos:$GITHUB_ACCESS_TOKEN@github.com/nosachamos/fast-data-engine.git .
+  git clone --depth 1 --branch $VERSION https://github.com/nosachamos/fast-data-engine.git .
   yarn
   yarn build
 

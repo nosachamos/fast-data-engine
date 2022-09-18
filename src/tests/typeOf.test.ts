@@ -21,19 +21,18 @@ describe('typeOf operator', () => {
     ];
 
     const data = dataGenerator(10);
-    const engine = new FastDataEngine(data);
     const condition = {typeOf: {field: 'firstName', value: SupportedTypesOfs.string}};
 
     [convertToNode(condition), condition].forEach((expr, i) => {
         it(`filters records correctly (${notationName(i)})`, () => {
-            const result = engine.filter(expr);
+            const { result } = FastDataEngine.filter(data, expr);
             performBasicAssertions(result, 10, 0);
         });
     });
 
     const assertTypeOf = (field: string, value: SupportedTypesOfs, found = true) => {
         const condition = {typeOf: {field, value}};
-        const result = engine.filter(condition);
+        const { result } = FastDataEngine.filter(data, condition);
         if (found) {
             performBasicAssertions(result, 10, 0);
         } else {
@@ -63,9 +62,8 @@ describe('typeOf operator', () => {
     ).forEach(([type, resultsLength, firstIndex]) => {
 
         it(`can recognize a ${type} field type`, () => {
-            const engine = new FastDataEngine(typesTestData);
             const condition = {typeOf: {field: 'test', value: type}};
-            const result = engine.filter(condition);
+            const { result } = FastDataEngine.filter(typesTestData, condition);
 
             performBasicAssertions(result, resultsLength, firstIndex, 2);
         });

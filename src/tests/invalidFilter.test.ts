@@ -4,7 +4,6 @@ import {FilterExpression} from "../model/filters/ObjectNotationTypes";
 
 describe('invalid filter', () => {
     const data = dataGenerator(10);
-    const engine = new FastDataEngine(data);
 
     it('throws error as expected', () => {
         const condition = {
@@ -12,7 +11,7 @@ describe('invalid filter', () => {
         } as unknown as FilterExpression;
 
         expect(() => {
-            engine.filter(condition);
+            FastDataEngine.filter(data, condition);
         }).toThrowError(`Unknown filter node type [invalid].`);
     });
 

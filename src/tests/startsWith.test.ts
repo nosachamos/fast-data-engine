@@ -6,12 +6,11 @@ import {performBasicAssertions} from "./utils/performBasicAssertions";
 
 describe('startsWith operator', () => {
     const data = dataGenerator(10);
-    const engine = new FastDataEngine(data);
     const condition = {startsWith: {field: 'firstName', value: 'Zi'}};
 
     [convertToNode(condition), condition].forEach((expr, i) => {
         it(`filters records correctly (${notationName(i)})`, () => {
-            const result = engine.filter(expr);
+            const { result } = FastDataEngine.filter(data, expr);
             performBasicAssertions(result, 1, 0);
         });
     });
@@ -19,14 +18,14 @@ describe('startsWith operator', () => {
     it('filters a string value correctly when ignoring case', () => {
         const condition = {startsWith: {field: 'firstName', value: 'ZI', ignoreCase: true}};
 
-        const result = engine.filter(condition);
+        const { result } = FastDataEngine.filter(data, condition);
         performBasicAssertions(result, 1, 0);
     });
 
     it('when filtering a non-string value no rows match filter', () => {
         const condition = {startsWith: {field: 'age', value: 'zi', ignoreCase: true}};
 
-        const result = engine.filter(condition);
+        const { result } = FastDataEngine.filter(data, condition);
         expect(result.length).toBe(0);
     });
 

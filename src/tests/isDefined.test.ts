@@ -6,7 +6,6 @@ import {performBasicAssertions} from "./utils/performBasicAssertions";
 
 describe('isDefined operator', () => {
     const data = dataGenerator(10);
-    const engine = new FastDataEngine(data);
 
     (
         [
@@ -20,7 +19,7 @@ describe('isDefined operator', () => {
 
         [convertToNode(condition), condition].forEach((expr, i) => {
             it(`filters ${dataType} correctly (${notationName(i)})`, () => {
-                const result = engine.filter(expr);
+                const { result } = FastDataEngine.filter(data, expr);
                 performBasicAssertions(result, resultsLength, firstIndex);
             });
         });

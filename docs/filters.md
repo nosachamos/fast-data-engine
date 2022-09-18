@@ -21,11 +21,9 @@ const data = [
     { firstName: 'John', lastName: 'Smith', age: 30 }
 ]
 
-const engine = new FastDataEngine(data);
-
 // filter by first name
 const condition = and(startsWith('firstName', 'Al'), greaterThan('age', 15));
-const result = engine.filter(condition);
+const { result } = FastDataEngine.filter(data, condition);
 
 // result is:
 // [{ firstName: 'Alice', lastName: 'Wondergirl', age: 20 }]

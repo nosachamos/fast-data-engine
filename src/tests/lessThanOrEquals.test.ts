@@ -6,12 +6,11 @@ import {performBasicAssertions} from "./utils/performBasicAssertions";
 
 describe('lessThanOrEquals operator', () => {
     const data = dataGenerator(10);
-    const engine = new FastDataEngine(data);
     const condition = {lessThanOrEquals: {field: 'age', value: 52}};
 
     [convertToNode(condition), condition].forEach((expr, i) => {
         it(`filters records correctly (${notationName(i)})`, () => {
-            const result = engine.filter(expr);
+            const { result } = FastDataEngine.filter(data, expr);
             performBasicAssertions(result, 7, 0);
         });
     });
@@ -19,7 +18,7 @@ describe('lessThanOrEquals operator', () => {
     it('when filtering a non-string value no rows match filter', () => {
         const condition = {lessThanOrEquals: {field: 'firstName', value: 10}};
 
-        const result = engine.filter(condition);
+        const { result } = FastDataEngine.filter(data, condition);
         expect(result.length).toBe(0);
     });
 

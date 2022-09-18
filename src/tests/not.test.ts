@@ -6,7 +6,6 @@ import {performBasicAssertions} from "./utils/performBasicAssertions";
 
 describe('not operator', () => {
     const data = dataGenerator(10);
-    const engine = new FastDataEngine(data);
     const condition = {
         not: {
             or: [
@@ -18,7 +17,7 @@ describe('not operator', () => {
 
     [convertToNode(condition), condition].forEach((expr, i) => {
         it(`filters records correctly (${notationName(i)})`, () => {
-            const result = engine.filter(expr);
+            const { result } = FastDataEngine.filter(data, expr);
             performBasicAssertions(result, 9, 1);
         });
     });
@@ -33,7 +32,7 @@ describe('not operator', () => {
             }
         };
 
-        const result = engine.filter(condition);
+        const { result } = FastDataEngine.filter(data, condition);
         expect(result.length).toBe(10);
     });
 
@@ -47,7 +46,7 @@ describe('not operator', () => {
             }
         };
 
-        const result = engine.filter(condition);
+        const { result } = FastDataEngine.filter(data, condition);
         performBasicAssertions(result, 9, 1);
     });
 

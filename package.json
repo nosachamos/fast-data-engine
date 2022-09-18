@@ -1,18 +1,19 @@
 {
     "name": "fast-data-engine",
-    "version": "0.0.1-alpha-3",
-    "description": "Fast Data Engine is a blazing fast data grouping and filtering engine.",
+    "version": "1.0.0",
+    "description": "Fast Data Engine is a blazing fast data filtering engine.",
     "main": "build/index.js",
     "typings": "build/index.d.ts",
     "repository": "https://github.com/nosachamos/fast-data-engine",
     "homepage": "https://nosachamos.github.com/fast-data-engine",
-    "license": "Proprietary",
+    "license": "MIT",
     "keywords": [
-        "form validation",
-        "form",
-        "validation",
-        "react",
-        "hooks",
+        "filter",
+        "filtering",
+        "fast",
+        "json",
+        "data",
+        "engine",
         "awesome",
         "usable"
     ],
@@ -70,12 +71,6 @@
     },
     "engines": {
         "node": ">=8.9"
-    },
-    "peerDependencies": {
-        "react": ">=16.8.0"
-    },
-    "optionalDependencies": {
-        "validator": ">=13.7.0"
     },
     "devDependencies": {
         "@babel/core": "^7.18.9",

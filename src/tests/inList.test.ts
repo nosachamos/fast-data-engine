@@ -11,12 +11,11 @@ describe('inList operator', () => {
         { index: 3, category: 'x', notArray: 'data4' },
         { index: 4, category: 'a', notArray: 'data5' }
     ];
-    const engine = new FastDataEngine(data);
     const condition = {inList: {field: 'category', value: ['a', 'x']}};
 
     [convertToNode(condition), condition].forEach((expr, i) => {
         it(`filters records correctly (${notationName(i)})`, () => {
-            const result = engine.filter(expr);
+            const { result } = FastDataEngine.filter(data, expr);
             performBasicAssertions(result, 3, 0, 3);
         });
     });
@@ -25,14 +24,14 @@ describe('inList operator', () => {
         {
             const condition = {inList: {field: 'category', value: ['A', 'X'], ignoreCase: false}};
 
-            const result = engine.filter(condition);
+            const { result } = FastDataEngine.filter(data, condition);
             expect(result.length).toBe(0);
         }
 
         {
             const condition = {inList: {field: 'category', value: ['A', 'X'], ignoreCase: true}};
 
-            const result = engine.filter(condition);
+            const { result } = FastDataEngine.filter(data, condition);
             performBasicAssertions(result, 3, 0, 3);
         }
     });
@@ -40,14 +39,14 @@ describe('inList operator', () => {
     it('when filtering a non-string value no rows match filter', () => {
         const condition = {inList: {field: 'notList', value: ['a']}};
 
-        const result = engine.filter(condition);
+        const { result } = FastDataEngine.filter(data, condition);
         expect(result.length).toBe(0);
     });
 
     it('when filtering a non-existing field no rows match filter', () => {
         const condition = {inList: {field: 'notExisting', value: ['a']}};
 
-        const result = engine.filter(condition);
+        const { result } = FastDataEngine.filter(data, condition);
         expect(result.length).toBe(0);
     });
 

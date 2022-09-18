@@ -6,7 +6,7 @@
 ![Snyk Vulnerabilities for GitHub Repo](https://img.shields.io/snyk/vulnerabilities/github/nosachamos/fast-data-engine.svg)
 ![GitHub](https://img.shields.io/github/license/nosachamos/fast-data-engine.svg)
 
-Fast Data Engine is a blazing fast data engine with support to grouping and filtering.
+Fast Data Engine is a blazing fast filtering engine.
 
 <p align="center">
 <img width="200px" src="https://github.com/nosachamos/fast-data-engine/raw/master/docs/logo_transparent.png" alt="fast-data-engine" style="max-width:100%;">
@@ -31,7 +31,7 @@ npm install fast-data-engine --save
 # Sample Usage
 
 ```jsx
-import { FastDataEngine } from 'fast-data-engine';
+import { FastDataEngine } from 'nosachamos/fast-data-engine';
 
 //...
 
@@ -44,7 +44,7 @@ Import the `FastDataEngine` service to access the API.
 
 Provide your data in `json` format, and you're all set.
 
-Now call the `group()` and `filter()` functions to configure how you want your data.
+Now call the `filter()` function to get it filtered.
 
 # Dev
 

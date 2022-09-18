@@ -6,12 +6,11 @@ import {performBasicAssertions} from "./utils/performBasicAssertions";
 
 describe('isTrue operator', () => {
     const data = dataGenerator(10);
-    const engine = new FastDataEngine(data);
     const condition = {isTrue: 'eligible'};
 
     [convertToNode(condition), condition].forEach((expr, i) => {
         it(`filters records correctly (${notationName(i)})`, () => {
-            const result = engine.filter(expr);
+            const { result } = FastDataEngine.filter(data, expr);
             performBasicAssertions(result, 3, 6);
         });
     });
@@ -19,7 +18,7 @@ describe('isTrue operator', () => {
     it('when filtering a non-boolean value no rows match filter', () => {
         const condition = {isTrue: 'firstName'};
 
-        const result = engine.filter(condition);
+        const { result } = FastDataEngine.filter(data, condition);
         expect(result.length).toBe(0);
     });
 

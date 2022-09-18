@@ -6,7 +6,6 @@ import {performBasicAssertions} from "./utils/performBasicAssertions";
 
 describe('equals operator', () => {
     const data = dataGenerator(10);
-    const engine = new FastDataEngine(data);
 
     (
         [
@@ -21,7 +20,7 @@ describe('equals operator', () => {
 
         [convertToNode(condition), condition].forEach((expr, i) => {
             it(`filters ${dataType} correctly (${notationName(i)})`, () => {
-                const result = engine.filter(expr);
+                const { result } = FastDataEngine.filter(data, expr);
                 performBasicAssertions(result, resultsLength, firstIndex);
             });
         });
@@ -30,14 +29,14 @@ describe('equals operator', () => {
     it('filters a string value correctly when ignoring case', () => {
         const condition = {equals: {field: 'firstName', value: 'ZION', ignoreCase: true}};
 
-        const result = engine.filter(condition);
+        const { result } = FastDataEngine.filter(data, condition);
         performBasicAssertions(result, 1, 0);
     });
 
     it('setting ignore case when filtering a non-string value does not impact filtering', () => {
         const condition = {equals: {field: 'width', value: 1335.32, ignoreCase: true}};
 
-        const result = engine.filter(condition);
+        const { result } = FastDataEngine.filter(data, condition);
         performBasicAssertions(result, 1, 0);
     });
 

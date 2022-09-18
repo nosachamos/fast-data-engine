@@ -11,4 +11,10 @@ All tests have been performed in:
 - %MACHINE_DETAILS%
 
 
-## Basic usage
+## Benchmarks
+
+Time in milliseconds to filter 500000 rows of generated test data.
+
+```json
+%BENCHMARKS%
+```
