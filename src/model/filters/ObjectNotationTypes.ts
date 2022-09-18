@@ -1,125 +1,125 @@
 export type SupportedDataTypes = string | number | boolean | null | undefined | object;
 
 export enum SupportedTypesOfs {
-  string = 'string',
-  number = 'number',
-  boolean = 'boolean',
-  object = 'object',
-  array = 'array',
-  null = 'null',
-  undefined = 'undefined',
+    string = 'string',
+    number = 'number',
+    boolean = 'boolean',
+    object = 'object',
+    array = 'array',
+    null = 'null',
+    undefined = 'undefined',
 }
 
 export type FieldAccessorConfig = {
-  field: string;
+    field: string;
 };
 
 export type AccessorConfig = FieldAccessorConfig;
 
 export type BinaryExpressionValue<V> = {
-  value: V;
+    value: V;
 };
 
 export type StringBinaryExpressionValue<V> = BinaryExpressionValue<V> & {
-  ignoreCase?: boolean;
+    ignoreCase?: boolean;
 };
 
 type UnaryExpressionValue = string;
 
 interface EqualsExpression {
-  equals: AccessorConfig & StringBinaryExpressionValue<SupportedDataTypes>;
+    equals: AccessorConfig & StringBinaryExpressionValue<SupportedDataTypes>;
 }
 
 interface InListExpression {
-  inList: FieldAccessorConfig & StringBinaryExpressionValue<SupportedDataTypes[]>;
+    inList: FieldAccessorConfig & StringBinaryExpressionValue<SupportedDataTypes[]>;
 }
 
 interface InArrayExpression {
-  inArray: FieldAccessorConfig & StringBinaryExpressionValue<SupportedDataTypes>;
+    inArray: FieldAccessorConfig & StringBinaryExpressionValue<SupportedDataTypes>;
 }
 
 interface IncludesExpression {
-  includes: FieldAccessorConfig & StringBinaryExpressionValue<string>;
+    includes: FieldAccessorConfig & StringBinaryExpressionValue<string>;
 }
 
 interface MatchesExpression {
-  matches: FieldAccessorConfig & StringBinaryExpressionValue<string | RegExp>;
+    matches: FieldAccessorConfig & StringBinaryExpressionValue<string | RegExp>;
 }
 
 interface StartsWithExpression {
-  startsWith: FieldAccessorConfig & StringBinaryExpressionValue<string>;
+    startsWith: FieldAccessorConfig & StringBinaryExpressionValue<string>;
 }
 
 interface EndsWithExpression {
-  endsWith: FieldAccessorConfig & StringBinaryExpressionValue<string>;
+    endsWith: FieldAccessorConfig & StringBinaryExpressionValue<string>;
 }
 
 interface TypeOfExpression {
-  typeOf: FieldAccessorConfig & BinaryExpressionValue<SupportedTypesOfs>;
+    typeOf: FieldAccessorConfig & BinaryExpressionValue<SupportedTypesOfs>;
 }
 
 interface GreaterThanExpression {
-  greaterThan: FieldAccessorConfig & BinaryExpressionValue<number>;
+    greaterThan: FieldAccessorConfig & BinaryExpressionValue<number>;
 }
 
 interface GreaterThanOrEqualsExpression {
-  greaterThanOrEquals: FieldAccessorConfig & BinaryExpressionValue<number>;
+    greaterThanOrEquals: FieldAccessorConfig & BinaryExpressionValue<number>;
 }
 
 interface LessThanExpression {
-  lessThan: FieldAccessorConfig & BinaryExpressionValue<number>;
+    lessThan: FieldAccessorConfig & BinaryExpressionValue<number>;
 }
 
 interface LessThanOrEqualsExpression {
-  lessThanOrEquals: FieldAccessorConfig & BinaryExpressionValue<number>;
+    lessThanOrEquals: FieldAccessorConfig & BinaryExpressionValue<number>;
 }
 
 interface IsDefinedExpression {
-  isDefined: UnaryExpressionValue;
+    isDefined: UnaryExpressionValue;
 }
 
 interface IsTrueExpression {
-  isTrue: UnaryExpressionValue;
+    isTrue: UnaryExpressionValue;
 }
 
 interface IsFalseExpression {
-  isFalse: UnaryExpressionValue;
+    isFalse: UnaryExpressionValue;
 }
 
 interface AndExpression {
-  and: FilterExpression[];
+    and: FilterExpression[];
 }
 
 interface OrExpression {
-  or: FilterExpression[];
+    or: FilterExpression[];
 }
 
 interface XorExpression {
-  xor: FilterExpression[];
+    xor: FilterExpression[];
 }
 
 interface NotExpression {
-  not: FilterExpression;
+    not: FilterExpression;
 }
 
 export type FilterExpression =
-  | Record<string, never>
-  | InListExpression
-  | InArrayExpression
-  | NotExpression
-  | IsDefinedExpression
-  | EqualsExpression
-  | IncludesExpression
-  | MatchesExpression
-  | StartsWithExpression
-  | EndsWithExpression
-  | GreaterThanExpression
-  | GreaterThanOrEqualsExpression
-  | LessThanExpression
-  | LessThanOrEqualsExpression
-  | IsTrueExpression
-  | IsFalseExpression
-  | TypeOfExpression
-  | AndExpression
-  | OrExpression
-  | XorExpression;
+    | Record<string, never>
+    | InListExpression
+    | InArrayExpression
+    | NotExpression
+    | IsDefinedExpression
+    | EqualsExpression
+    | IncludesExpression
+    | MatchesExpression
+    | StartsWithExpression
+    | EndsWithExpression
+    | GreaterThanExpression
+    | GreaterThanOrEqualsExpression
+    | LessThanExpression
+    | LessThanOrEqualsExpression
+    | IsTrueExpression
+    | IsFalseExpression
+    | TypeOfExpression
+    | AndExpression
+    | OrExpression
+    | XorExpression;

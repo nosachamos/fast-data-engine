@@ -54,6 +54,8 @@ console.log(result);
 // [{ firstName: 'John', age: 30 }]
 ```
 
+[See the complete documentation here.](https://nosachamos.github.io/fast-data-engine)
+
 
 # In a Nutshell
 

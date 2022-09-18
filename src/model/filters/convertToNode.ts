@@ -23,126 +23,126 @@ import { TypeOfNode } from './TypeOf';
 import { FieldAccessor } from './accessor/FieldAccessor';
 
 type KnownKeys<T> = {
-  [K in keyof T]: string extends K ? never : number extends K ? never : K;
+    [K in keyof T]: string extends K ? never : number extends K ? never : K;
 } extends infer R
-  ? R extends { [_ in keyof T]: infer U }
-    ? U
-    : never
-  : never;
+    ? R extends { [_ in keyof T]: infer U }
+        ? U
+        : never
+    : never;
 
 export const convertToNode = (expression: FilterExpression): INode => {
-  const keys = Object.keys(expression) as KnownKeys<FilterExpression>[];
+    const keys = Object.keys(expression) as KnownKeys<FilterExpression>[];
 
-  if (keys.length === 0) {
-    return new NoopNode();
-  }
-
-  // there is an implicit AND node at the top level
-  const rootChildren: INode[] = [];
-
-  const processLogicalNode = (value: FilterExpression[]) => {
-    const convertedChildren: INode[] = [];
-    const children = value;
-    for (let j = 0; j < children.length; j++) {
-      const child = children[j];
-      convertedChildren.push(convertToNode(child));
+    if (keys.length === 0) {
+        return new NoopNode();
     }
-    return convertedChildren;
-  };
 
-  for (let i = 0; i < keys.length; i++) {
-    const key = keys[i];
-    // @ts-expect-error: TS7053 - accessing key is safe here.
-    const value = expression[key];
+    // there is an implicit AND node at the top level
+    const rootChildren: INode[] = [];
 
-    // more field accessors will be added in the future.
-    const dataAccessor = new FieldAccessor();
-    const accessorKey = value[dataAccessor.key];
-    switch (key) {
-      case 'equals':
-        rootChildren.push(new EqualsNode(dataAccessor, accessorKey, value.value, value.ignoreCase));
-        break;
+    const processLogicalNode = (value: FilterExpression[]) => {
+        const convertedChildren: INode[] = [];
+        const children = value;
+        for (let j = 0; j < children.length; j++) {
+            const child = children[j];
+            convertedChildren.push(convertToNode(child));
+        }
+        return convertedChildren;
+    };
 
-      case 'startsWith':
-        rootChildren.push(new StartsWith(dataAccessor, accessorKey, value.value, value.ignoreCase));
-        break;
+    for (let i = 0; i < keys.length; i++) {
+        const key = keys[i];
+        // @ts-expect-error: TS7053 - accessing key is safe here.
+        const value = expression[key];
 
-      case 'endsWith':
-        rootChildren.push(new EndsWith(dataAccessor, accessorKey, value.value, value.ignoreCase));
-        break;
+        // more field accessors will be added in the future.
+        const dataAccessor = new FieldAccessor();
+        const accessorKey = value[dataAccessor.key];
+        switch (key) {
+            case 'equals':
+                rootChildren.push(new EqualsNode(dataAccessor, accessorKey, value.value, value.ignoreCase));
+                break;
 
-      case 'includes':
-        rootChildren.push(new IncludesNode(dataAccessor, accessorKey, value.value, value.ignoreCase));
-        break;
+            case 'startsWith':
+                rootChildren.push(new StartsWith(dataAccessor, accessorKey, value.value, value.ignoreCase));
+                break;
 
-      case 'matches':
-        rootChildren.push(new MatchesNode(dataAccessor, accessorKey, value.value, value.ignoreCase));
-        break;
+            case 'endsWith':
+                rootChildren.push(new EndsWith(dataAccessor, accessorKey, value.value, value.ignoreCase));
+                break;
 
-      case 'isTrue':
-        rootChildren.push(new IsTrueNode(dataAccessor, value));
-        break;
+            case 'includes':
+                rootChildren.push(new IncludesNode(dataAccessor, accessorKey, value.value, value.ignoreCase));
+                break;
 
-      case 'isFalse':
-        rootChildren.push(new IsFalseNode(dataAccessor, value));
-        break;
+            case 'matches':
+                rootChildren.push(new MatchesNode(dataAccessor, accessorKey, value.value, value.ignoreCase));
+                break;
 
-      case 'isDefined':
-        rootChildren.push(new IsDefinedNode(dataAccessor, value));
-        break;
+            case 'isTrue':
+                rootChildren.push(new IsTrueNode(dataAccessor, value));
+                break;
 
-      case 'greaterThan':
-        rootChildren.push(new GreaterThanNode(dataAccessor, accessorKey, value.value));
-        break;
+            case 'isFalse':
+                rootChildren.push(new IsFalseNode(dataAccessor, value));
+                break;
 
-      case 'greaterThanOrEquals':
-        rootChildren.push(new GreaterThanOrEqualsNode(dataAccessor, accessorKey, value.value));
-        break;
+            case 'isDefined':
+                rootChildren.push(new IsDefinedNode(dataAccessor, value));
+                break;
 
-      case 'lessThan':
-        rootChildren.push(new LessThanNode(dataAccessor, accessorKey, value.value));
-        break;
+            case 'greaterThan':
+                rootChildren.push(new GreaterThanNode(dataAccessor, accessorKey, value.value));
+                break;
 
-      case 'lessThanOrEquals':
-        rootChildren.push(new LessThanOrEqualsNode(dataAccessor, accessorKey, value.value));
-        break;
+            case 'greaterThanOrEquals':
+                rootChildren.push(new GreaterThanOrEqualsNode(dataAccessor, accessorKey, value.value));
+                break;
 
-      case 'typeOf':
-        rootChildren.push(new TypeOfNode(dataAccessor, accessorKey, value.value));
-        break;
+            case 'lessThan':
+                rootChildren.push(new LessThanNode(dataAccessor, accessorKey, value.value));
+                break;
 
-      case 'inList':
-        rootChildren.push(new InListNode(dataAccessor, accessorKey, value.value, value.ignoreCase));
-        break;
+            case 'lessThanOrEquals':
+                rootChildren.push(new LessThanOrEqualsNode(dataAccessor, accessorKey, value.value));
+                break;
 
-      case 'inArray':
-        rootChildren.push(new InArrayNode(dataAccessor, accessorKey, value.value, value.ignoreCase));
-        break;
+            case 'typeOf':
+                rootChildren.push(new TypeOfNode(dataAccessor, accessorKey, value.value));
+                break;
 
-      case 'and':
-        rootChildren.push(new AndNode(processLogicalNode(value as FilterExpression[])));
-        break;
+            case 'inList':
+                rootChildren.push(new InListNode(dataAccessor, accessorKey, value.value, value.ignoreCase));
+                break;
 
-      case 'or':
-        rootChildren.push(new OrNode(processLogicalNode(value as FilterExpression[])));
-        break;
+            case 'inArray':
+                rootChildren.push(new InArrayNode(dataAccessor, accessorKey, value.value, value.ignoreCase));
+                break;
 
-      case 'xor':
-        rootChildren.push(new XorNode(processLogicalNode(value as FilterExpression[])));
-        break;
+            case 'and':
+                rootChildren.push(new AndNode(processLogicalNode(value as FilterExpression[])));
+                break;
 
-      case 'not':
-        rootChildren.push(new NotNode(convertToNode(value as FilterExpression)));
-        break;
+            case 'or':
+                rootChildren.push(new OrNode(processLogicalNode(value as FilterExpression[])));
+                break;
 
-      default:
-        throw new Error(`Unknown filter node type [${key}].`);
+            case 'xor':
+                rootChildren.push(new XorNode(processLogicalNode(value as FilterExpression[])));
+                break;
+
+            case 'not':
+                rootChildren.push(new NotNode(convertToNode(value as FilterExpression)));
+                break;
+
+            default:
+                throw new Error(`Unknown filter node type [${key}].`);
+        }
     }
-  }
 
-  if (rootChildren.length !== 1) {
-    return new AndNode(rootChildren);
-  } else {
-    return rootChildren[0];
-  }
+    if (rootChildren.length !== 1) {
+        return new AndNode(rootChildren);
+    } else {
+        return rootChildren[0];
+    }
 };

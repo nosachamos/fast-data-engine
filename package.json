@@ -5,7 +5,7 @@
     "main": "build/index.js",
     "typings": "build/index.d.ts",
     "repository": "https://github.com/nosachamos/fast-data-engine",
-    "homepage": "https://nosachamos.github.com/fast-data-engine",
+    "homepage": "https://nosachamos.github.io/fast-data-engine",
     "license": "MIT",
     "keywords": [
         "filter",
@@ -70,6 +70,11 @@
     },
     "engines": {
         "node": ">=8.9"
+    },
+    "resolutions": {
+        "trim-newlines": "^3.0.1",
+        "serialize-javascript": "^3.1.0",
+        "yargs-parser": "^13.1.2"
     },
     "devDependencies": {
         "@babel/core": "^7.18.9",
@@ -152,9 +157,6 @@
             "!src/benchmarks/**/*",
             "!src/tests/**/*"
         ]
-    },
-    "prettier": {
-        "singleQuote": true
     },
     "lint-staged": {
         "linters": {
