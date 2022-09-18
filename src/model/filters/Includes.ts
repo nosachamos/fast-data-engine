@@ -1,6 +1,6 @@
 import {JsonRow} from '../JsonRow';
 import {INode} from './INode';
-import {ValueAccessor} from "./ObjectNotationTypes";
+import {ValueAccessor} from "./accessor/ValueAccessor";
 
 export class IncludesNode implements INode {
     // TODO benchmark with different nodes for ignore case true versus false to avoid ignore case ternary operator
@@ -8,7 +8,7 @@ export class IncludesNode implements INode {
     }
 
     filter = (row: JsonRow): boolean => {
-        const rowValue = this.valueAccessor(row, this.fieldName);
+        const rowValue = this.valueAccessor.access(row, this.fieldName);
 
         // TODO benchmark with indexOf > -1
         if (typeof rowValue !== 'string') {

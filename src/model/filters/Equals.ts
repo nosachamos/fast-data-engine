@@ -1,6 +1,7 @@
 import {JsonRow} from '../JsonRow';
 import {INode} from './INode';
-import {SupportedDataTypes, ValueAccessor} from "./ObjectNotationTypes";
+import {SupportedDataTypes} from "./ObjectNotationTypes";
+import {ValueAccessor} from "./accessor/ValueAccessor";
 
 export class EqualsNode implements INode {
     // TODO benchmark creating a different node for each value data type to avoid type checks
@@ -9,7 +10,7 @@ export class EqualsNode implements INode {
 
     // TODO: benchmark without arrow functions
     filter = (row: JsonRow): boolean => {
-        const rowValue = this.valueAccessor(row, this.fieldName);
+        const rowValue = this.valueAccessor.access(row, this.fieldName);
 
         if (this.ignoreCase) {
             // TODO: benchmark checking each char and lowering case only if letter does not match
@@ -17,7 +18,7 @@ export class EqualsNode implements INode {
                 return (rowValue as string).toLowerCase() === this.value.toLowerCase();
             }
         }
-
         return rowValue === this.value;
+
     };
 }

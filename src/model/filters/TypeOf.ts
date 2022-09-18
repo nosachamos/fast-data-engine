@@ -1,13 +1,14 @@
 import {JsonRow} from '../JsonRow';
 import {INode} from './INode';
-import {SupportedTypesOfs, ValueAccessor} from "./ObjectNotationTypes";
+import {SupportedTypesOfs} from "./ObjectNotationTypes";
+import {ValueAccessor} from "./accessor/ValueAccessor";
 
 export class TypeOfNode implements INode {
     constructor(private valueAccessor: ValueAccessor, private fieldName: string, private value: SupportedTypesOfs) {
     }
 
     filter = (row: JsonRow): boolean => {
-        const rowValue = this.valueAccessor(row, this.fieldName);
+        const rowValue = this.valueAccessor.access(row, this.fieldName);
 
         switch (this.value) {
             case SupportedTypesOfs.array:

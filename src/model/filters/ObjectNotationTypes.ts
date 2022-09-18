@@ -1,5 +1,3 @@
-import {JsonRow} from "../JsonRow";
-
 export type SupportedDataTypes = string | number | boolean | null | undefined | object;
 
 export enum SupportedTypesOfs {
@@ -12,25 +10,12 @@ export enum SupportedTypesOfs {
     undefined = 'undefined'
 }
 
-export type ValueAccessor = (row: JsonRow, key: string) => SupportedDataTypes;
-
-export type FieldAccessor = {
+export type FieldAccessorConfig = {
     field: string;
 }
 
-export type ObjectKeysAccessor = {
-    objectKeys: string;
-}
-
-export type ObjectValuesAccessor = {
-    objectValues: string;
-}
-
-export type ArrayLengthAccessor = {
-    arrayLength: string;
-}
-
-export type Accessor = FieldAccessor | ObjectKeysAccessor | ObjectValuesAccessor | ArrayLengthAccessor;
+export type AccessorConfig =
+    FieldAccessorConfig;
 
 export type BinaryExpressionValue<V> = {
     value: V;
@@ -43,51 +28,51 @@ export type StringBinaryExpressionValue<V> = BinaryExpressionValue<V> & {
 type UnaryExpressionValue = string;
 
 interface EqualsExpression {
-    equals: Accessor & StringBinaryExpressionValue<SupportedDataTypes>;
+    equals: AccessorConfig & StringBinaryExpressionValue<SupportedDataTypes>;
 }
 
 interface InListExpression {
-    inList: (FieldAccessor | ArrayLengthAccessor) & StringBinaryExpressionValue<SupportedDataTypes[]>;
+    inList: FieldAccessorConfig & StringBinaryExpressionValue<SupportedDataTypes[]>;
 }
 
 interface InArrayExpression {
-    inArray: (ObjectKeysAccessor | ObjectValuesAccessor | FieldAccessor) & StringBinaryExpressionValue<SupportedDataTypes>;
+    inArray: FieldAccessorConfig & StringBinaryExpressionValue<SupportedDataTypes>;
 }
 
 interface IncludesExpression {
-    includes: FieldAccessor & StringBinaryExpressionValue<string>;
+    includes: FieldAccessorConfig & StringBinaryExpressionValue<string>;
 }
 
 interface MatchesExpression {
-    matches: FieldAccessor & StringBinaryExpressionValue<string | RegExp>;
+    matches: FieldAccessorConfig & StringBinaryExpressionValue<string | RegExp>;
 }
 
 interface StartsWithExpression {
-    startsWith: FieldAccessor & StringBinaryExpressionValue<string>;
+    startsWith: FieldAccessorConfig & StringBinaryExpressionValue<string>;
 }
 
 interface EndsWithExpression {
-    endsWith: FieldAccessor & StringBinaryExpressionValue<string>;
+    endsWith: FieldAccessorConfig & StringBinaryExpressionValue<string>;
 }
 
 interface TypeOfExpression {
-    typeOf: FieldAccessor & BinaryExpressionValue<SupportedTypesOfs>;
+    typeOf: FieldAccessorConfig & BinaryExpressionValue<SupportedTypesOfs>;
 }
 
 interface GreaterThanExpression {
-    greaterThan: (FieldAccessor | ArrayLengthAccessor) & BinaryExpressionValue<number>;
+    greaterThan: FieldAccessorConfig & BinaryExpressionValue<number>;
 }
 
 interface GreaterThanOrEqualsExpression {
-    greaterThanOrEquals: (FieldAccessor | ArrayLengthAccessor) & BinaryExpressionValue<number>;
+    greaterThanOrEquals: FieldAccessorConfig & BinaryExpressionValue<number>;
 }
 
 interface LessThanExpression {
-    lessThan: (FieldAccessor | ArrayLengthAccessor) & BinaryExpressionValue<number>;
+    lessThan: FieldAccessorConfig & BinaryExpressionValue<number>;
 }
 
 interface LessThanOrEqualsExpression {
-    lessThanOrEquals: (FieldAccessor | ArrayLengthAccessor) & BinaryExpressionValue<number>;
+    lessThanOrEquals: FieldAccessorConfig & BinaryExpressionValue<number>;
 }
 
 interface IsDefinedExpression {

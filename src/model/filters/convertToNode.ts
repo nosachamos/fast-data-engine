@@ -1,11 +1,4 @@
-import {
-    Accessor,
-    ArrayLengthAccessor,
-    FieldAccessor,
-    FilterExpression,
-    ObjectKeysAccessor,
-    ObjectValuesAccessor
-} from './ObjectNotationTypes';
+import {FilterExpression} from './ObjectNotationTypes';
 import {INode} from './INode';
 import {NoopNode} from './Noop';
 import {EqualsNode} from './Equals';
@@ -27,7 +20,7 @@ import {NotNode} from './Not';
 import {InListNode} from './InList';
 import {InArrayNode} from "./InArray";
 import {TypeOfNode} from "./TypeOf";
-import {JsonRow} from "../JsonRow";
+import {FieldAccessor} from "./accessor/FieldAccessor";
 
 type KnownKeys<T> = {
     [K in keyof T]: string extends K ? never : number extends K ? never : K;
@@ -37,48 +30,6 @@ type KnownKeys<T> = {
         : never
     : never;
 
-
-const fieldAccessor = (row: JsonRow, key: string) => row[key];
-
-const arrayLengthAccessor = (row: JsonRow, key: string) => {
-    const value = row[key];
-    if (!Array.isArray(value)) {
-        throw new Error(`Cannot use arrayLength accessor: field ${key} is not of array type.`);
-    }
-    return value.length;
-}
-
-const objectKeysAccessor = (row: JsonRow, key: string) => {
-    const value = row[key];
-    if (typeof value !== 'object' || value === null) {
-        throw new Error(`Cannot use objectKeys accessor: field ${key} is not of object type, or it is null.`);
-    }
-    return Object.keys(value);
-}
-
-const objectValuesAccessor = (row: JsonRow, key: string) => {
-    const value = row[key];
-    if (typeof value !== 'object' || value === null) {
-        throw new Error(`Cannot use objectValues accessor: field ${key} is not of object type, or it is null.`);
-    }
-    return Object.values(value);
-}
-
-function isFieldAccessor(obj: Accessor): obj is FieldAccessor {
-    return (obj as FieldAccessor).field !== undefined;
-}
-
-function isObjectKeysAccessor(obj: Accessor): obj is ObjectKeysAccessor {
-    return (obj as ObjectKeysAccessor).objectKeys !== undefined;
-}
-
-function isObjectValuesAccessor(obj: Accessor): obj is ObjectValuesAccessor {
-    return (obj as ObjectValuesAccessor).objectValues !== undefined;
-}
-
-function isArrayLengthAccessor(obj: Accessor): obj is ArrayLengthAccessor {
-    return (obj as ArrayLengthAccessor).arrayLength !== undefined;
-}
 
 export const convertToNode = (expression: FilterExpression): INode => {
     const keys = Object.keys(expression) as KnownKeys<FilterExpression>[];
@@ -104,83 +55,68 @@ export const convertToNode = (expression: FilterExpression): INode => {
         const key = keys[i];
         const value = (expression as any)[key];
 
-        const getDataAccessor = <T extends Accessor>(value: T) => {
-            const dataAccessor = isFieldAccessor(value)
-                ? fieldAccessor
-                : isArrayLengthAccessor(value)
-                    ? arrayLengthAccessor
-                    : isObjectKeysAccessor(value)
-                        ? objectKeysAccessor
-                        : isObjectValuesAccessor(value)
-                            ? objectValuesAccessor
-                            : undefined;
-
-            if (!dataAccessor) {
-                throw new Error(`Unknown field type: ${JSON.stringify(value)}`);
-            }
-
-            return dataAccessor;
-        }
-
+        // more field accessors will be added in the future.
+        const dataAccessor = new FieldAccessor();
+        const accessorKey = value[dataAccessor.key];
         switch (key) {
             case 'equals':
-                rootChildren.push(new EqualsNode(getDataAccessor(value), value.field, value.value, value.ignoreCase));
+                rootChildren.push(new EqualsNode(dataAccessor, accessorKey, value.value, value.ignoreCase));
                 break;
 
             case 'startsWith':
-                rootChildren.push(new StartsWith(getDataAccessor(value), value.field, value.value, value.ignoreCase));
+                rootChildren.push(new StartsWith(dataAccessor, accessorKey, value.value, value.ignoreCase));
                 break;
 
             case 'endsWith':
-                rootChildren.push(new EndsWith(getDataAccessor(value), value.field, value.value, value.ignoreCase));
+                rootChildren.push(new EndsWith(dataAccessor, accessorKey, value.value, value.ignoreCase));
                 break;
 
             case 'includes':
-                rootChildren.push(new IncludesNode(getDataAccessor(value), value.field, value.value, value.ignoreCase));
+                rootChildren.push(new IncludesNode(dataAccessor, accessorKey, value.value, value.ignoreCase));
                 break;
 
             case 'matches':
-                rootChildren.push(new MatchesNode(getDataAccessor(value), value.field, value.value, value.ignoreCase));
+                rootChildren.push(new MatchesNode(dataAccessor, accessorKey, value.value, value.ignoreCase));
                 break;
 
             case 'isTrue':
-                rootChildren.push(new IsTrueNode(fieldAccessor, value));
+                rootChildren.push(new IsTrueNode(dataAccessor, value));
                 break;
 
             case 'isFalse':
-                rootChildren.push(new IsFalseNode(fieldAccessor, value));
+                rootChildren.push(new IsFalseNode(dataAccessor, value));
                 break;
 
             case 'isDefined':
-                rootChildren.push(new IsDefinedNode(fieldAccessor, value));
+                rootChildren.push(new IsDefinedNode(dataAccessor, value));
                 break;
 
             case 'greaterThan':
-                rootChildren.push(new GreaterThanNode(getDataAccessor(value), value.field, value.value));
+                rootChildren.push(new GreaterThanNode(dataAccessor, accessorKey, value.value));
                 break;
 
             case 'greaterThanOrEquals':
-                rootChildren.push(new GreaterThanOrEqualsNode(getDataAccessor(value), value.field, value.value));
+                rootChildren.push(new GreaterThanOrEqualsNode(dataAccessor, accessorKey, value.value));
                 break;
 
             case 'lessThan':
-                rootChildren.push(new LessThanNode(getDataAccessor(value), value.field, value.value));
+                rootChildren.push(new LessThanNode(dataAccessor, accessorKey, value.value));
                 break;
 
             case 'lessThanOrEquals':
-                rootChildren.push(new LessThanOrEqualsNode(getDataAccessor(value), value.field, value.value));
+                rootChildren.push(new LessThanOrEqualsNode(dataAccessor, accessorKey, value.value));
                 break;
 
             case 'typeOf':
-                rootChildren.push(new TypeOfNode(getDataAccessor(value), value.field, value.value));
+                rootChildren.push(new TypeOfNode(dataAccessor, accessorKey, value.value));
                 break;
 
             case 'inList':
-                rootChildren.push(new InListNode(getDataAccessor(value), value.field, value.value, value.ignoreCase));
+                rootChildren.push(new InListNode(dataAccessor, accessorKey, value.value, value.ignoreCase));
                 break;
 
             case 'inArray':
-                rootChildren.push(new InArrayNode(getDataAccessor(value), value.field, value.value, value.ignoreCase));
+                rootChildren.push(new InArrayNode(dataAccessor, accessorKey, value.value, value.ignoreCase));
                 break;
 
             case 'and':

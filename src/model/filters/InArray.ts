@@ -1,13 +1,14 @@
-import {SupportedDataTypes, ValueAccessor} from './ObjectNotationTypes';
+import {SupportedDataTypes} from './ObjectNotationTypes';
 import {JsonRow} from '../JsonRow';
 import {INode} from './INode';
+import {ValueAccessor} from "./accessor/ValueAccessor";
 
 export class InArrayNode implements INode {
     constructor(private valueAccessor: ValueAccessor, private fieldName: string, private value: SupportedDataTypes, private ignoreCase = false) {
     }
 
     filter = (row: JsonRow): boolean => {
-        const rowValues = this.valueAccessor(row, this.fieldName);
+        const rowValues = this.valueAccessor.access(row, this.fieldName);
         const rowValueArray = Array.isArray(rowValues) ? rowValues : [rowValues];
 
         if (this.ignoreCase) {

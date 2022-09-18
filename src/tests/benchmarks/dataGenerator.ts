@@ -10,7 +10,7 @@ export const basePath = 'src/tests/benchmarks/';
 const dataPath = `${basePath}/data/`;
 
 // Do not change the seed. If you do all benchmark data and tests will become invalid as we rely on the generated data
-// structure remaining the same for precise performance comparisons and assertions.
+// structure remaining the same for precise performance comparisons and assertions, as well as to perform tests.
 const seed = 'make it fast';
 
 // use a seed so that we can always regenerate the same data and keep our benchmarks comparable

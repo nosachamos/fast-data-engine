@@ -1,6 +1,7 @@
-import {SupportedDataTypes, ValueAccessor} from './ObjectNotationTypes';
+import {SupportedDataTypes} from './ObjectNotationTypes';
 import {JsonRow} from '../JsonRow';
 import {INode} from './INode';
+import {ValueAccessor} from "./accessor/ValueAccessor";
 
 export class EndsWith implements INode {
     constructor(private valueAccessor: ValueAccessor, private fieldName: string, private value: SupportedDataTypes, private ignoreCase = false) {
@@ -8,7 +9,7 @@ export class EndsWith implements INode {
 
     // TODO: benchmark without arrow functions
     filter = (row: JsonRow): boolean => {
-        const rowValue = this.valueAccessor(row, this.fieldName);
+        const rowValue = this.valueAccessor.access(row, this.fieldName);
 
         if (typeof rowValue !== 'string' || typeof this.value !== 'string') {
             return false;
