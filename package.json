@@ -35,7 +35,6 @@
         "prepare:generate-changelog": "auto-changelog -p --ignore-commit-pattern \"update changelog, fix linting, regenerate barrels\"",
         "prepare:prettier": "prettier \"src/**/*.ts\" --write --print-width=120",
         "prepare:eslint": "eslint . --ext .ts",
-        "prepare:commit-changes": "git add --all && git commit -m \"chore(release): update changelog, fix linting, regenerate barrels\"",
         "check": "eslint . --ext .ts && npm run test -- --no-cache --coverage",
         "test": "jest",
         "test:coverage": "jest --coverage && codecov",
