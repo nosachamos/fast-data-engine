@@ -1,4 +1,4 @@
-import {FilterExpression} from './ObjectNotationTypes';
+import { FilterExpression } from './ObjectNotationTypes';
 import { INode } from './INode';
 import { NoopNode } from './Noop';
 import { EqualsNode } from './Equals';
