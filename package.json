@@ -160,7 +160,7 @@
     "lint-staged": {
         "linters": {
             "{src,test}/**/*.{ts,jsx}": [
-                "prettier --write --print-width=120",
+                "prettier --write --print-width=160 --tabWidth=4",
                 "git add"
             ]
         }
