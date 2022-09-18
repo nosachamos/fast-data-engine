@@ -1,4 +1,3 @@
-[![fast-data-engine](https://github.com/nosachamos/fast-data-engine/actions/workflows/master.yml/badge.svg)
 [![codecov](https://codecov.io/gh/nosachamos/fast-data-engine/branch/master/graph/badge.svg)](https://codecov.io/gh/nosachamos/fast-data-engine)
 
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
