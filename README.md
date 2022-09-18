@@ -125,4 +125,4 @@ Details for commercial projects coming soon.
 
 ---
 
-Created and maintained by **[`Eduardo Born`](http://github.com/nosachamos)** with ❤ and coffee
+Created by **[`Eduardo Born`](http://github.com/nosachamos)** with ❤ and coffee

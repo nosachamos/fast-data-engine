@@ -35,13 +35,18 @@ import { FastDataEngine } from 'fast-data-engine';
 // the data you want to filter, group, etc
 const data = [
     { firstName: 'Mary', age: 10 },
-    { firstName: 'Alice', age: 20 },
-    { firstName: 'John', age: 30 }
+    { firstName: 'John', age: 20 },
+    { firstName: 'John', age: 30}
 ]
 
 // filter by first name
-const condition = operators('firstName', 'John');
-const { result } = FastDataEngine.filter(data, condition);
+const condition = {
+    and: [
+        {equals: {field: 'firstName', value: 'John'}},
+        {greaterThan: {field: 'age', value: 25}}
+    ]
+};
+const {result } = FastDataEngine.filter(data, condition);
 
 console.log(result);
 
@@ -72,4 +77,4 @@ MIT
 
 ---
 
-Created and maintained by **[`Eduardo Born`](http://github.com/nosachamos)** with ❤ and coffee.
+Created by **[`Eduardo Born`](http://github.com/nosachamos)** with ❤ and coffee.
