@@ -217,7 +217,7 @@ main.hidden {
     transition: all 0.3s;
 }
 .anchor span {
-    color: #FE6F1E;
+    color: #ffc354;
 }
 .anchor:hover {
     text-decoration: underline;
