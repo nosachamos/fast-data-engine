@@ -16,4 +16,3 @@ jobs:
         run: npm run test -- --no-cache --coverage
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
-        

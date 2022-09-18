@@ -7,15 +7,10 @@ module.exports = {
         path: path.join(__dirname, '/build'),
         filename: 'index.min.js',
         library: 'fast-data-engine',
+        globalObject: 'this',
         libraryTarget: 'umd'
     },
     externals: {
-        react: {
-            root: 'React',
-            commonjs2: 'react',
-            commonjs: 'react',
-            amd: 'react'
-        },
     },
     module: {
         rules: [

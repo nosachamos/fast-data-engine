@@ -6,6 +6,7 @@ module.exports = {
         path: path.join(__dirname, '/build'),
         filename: 'index.js',
         library: 'fast-data-engine',
+        globalObject: 'this',
         libraryTarget: 'umd'
     },
     externals: {

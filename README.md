@@ -36,8 +36,8 @@ import { FastDataEngine } from 'fast-data-engine';
 const data = [
     { firstName: 'Mary', age: 10 },
     { firstName: 'John', age: 20 },
-    { firstName: 'John', age: 30}
-]
+    { firstName: 'John', age: 30 },
+];
 
 // filter by first name
 const condition = {
@@ -46,7 +46,7 @@ const condition = {
         {greaterThan: {field: 'age', value: 25}}
     ]
 };
-const {result } = FastDataEngine.filter(data, condition);
+const { result } = FastDataEngine.filter(data, condition);
 
 console.log(result);
 
