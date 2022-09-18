@@ -7,10 +7,16 @@
 
 Fast Data Engine is a blazing fast data filtering engine.
 
+It's also:
+ - [fully tested](https://codecov.io/gh/nosachamos/fast-data-engine) and [benchmarked](./benchmarks.md)
+ - dependency and vulnerability free (scanned by Snyk)
+ - less than 2Kb gzipped
+ - simple and easy to use
+
 <p align="center">
 <img width="200px" src="https://github.com/nosachamos/fast-data-engine/raw/master/docs/logo_transparent.png" alt="fast-data-engine" style="max-width:100%;">
 </p>
-<p align="center">Fast, simple, tiny, extensible, intuitive, documented, fully tested, magical.</p>
+<p align="center">Fast, simple, tiny, intuitive, documented, fully tested, magical.</p>
 
 <br/>
 

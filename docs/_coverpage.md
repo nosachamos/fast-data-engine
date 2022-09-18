@@ -5,7 +5,7 @@
 
 # **Fast Data Engine**
 
-- Blazing fast, simple, extensible and lightweight filtering engine
+- Blazing fast, simple, tiny and lightweight filtering engine
 
 [GitHub](https://github.com/nosachamos/fast-data-engine/)
 [Getting Started](/home)
