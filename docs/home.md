@@ -17,7 +17,6 @@ It's also:
 <img width="200px" src="https://github.com/nosachamos/fast-data-engine/raw/master/docs/logo_transparent.png" alt="fast-data-engine" style="max-width:100%;">
 </p>
 <p align="center">Fast, simple, tiny, intuitive, documented, fully tested, magical.</p>
-
 <br/>
 
 
