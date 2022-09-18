@@ -4,7 +4,6 @@ import { INode, isINode } from './model/filters/INode';
 import { convertToNode } from './model/filters/convertToNode';
 
 export class Engine {
-
   constructor(private data: JsonData) {}
 
   filter = (config: FilterExpression | INode) => {
@@ -23,7 +22,6 @@ export class Engine {
   };
 
   get result() {
-      return this.data;
+    return this.data;
   }
-
 }

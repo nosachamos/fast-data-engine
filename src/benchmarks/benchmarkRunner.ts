@@ -1,6 +1,6 @@
 import * as puppeteer from 'puppeteer';
 import http from 'http';
-import {server} from './dataServer';
+import { server } from './dataServer';
 import path from 'path';
 import fs from 'fs';
 import os from 'os';
@@ -65,92 +65,91 @@ const pageContent = `
 `;
 
 export const benchmarkRunner = async () => {
-    // await http.createServer(server).listen(9876);
-    const fileServer = await http.createServer(server).listen(9876);
+  // await http.createServer(server).listen(9876);
+  const fileServer = await http.createServer(server).listen(9876);
 
-    const humanFileSize = (bytes: number, precision = 2) => {
-        if (Math.abs(bytes) < 1024) {
-            return bytes + ' B';
+  const humanFileSize = (bytes: number, precision = 2) => {
+    if (Math.abs(bytes) < 1024) {
+      return bytes + ' B';
+    }
+
+    const units = ['kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+    let u = -1;
+    const r = 10 ** precision;
+
+    do {
+      bytes /= 1024;
+      ++u;
+    } while (Math.round(Math.abs(bytes) * r) / r >= 1024 && u < units.length - 1);
+
+    return bytes.toFixed(precision) + ' ' + units[u];
+  };
+
+  const browser = await puppeteer.launch({
+    headless: false,
+    args: ['--disable-web-security'],
+  });
+
+  const page = await browser.newPage();
+  const timings: { [key: string]: number[] } = {};
+  page.on('console', async (msg: puppeteer.ConsoleMessage) => {
+    if (msg.text().startsWith('>>')) {
+      const parts = msg.text().substring(2).split(',');
+      const title = parts[0];
+      const duration = parseFloat(parts[1]);
+      if (typeof timings[title] !== 'undefined') {
+        timings[title]?.push(duration);
+      } else {
+        timings[title] = [duration];
+      }
+    }
+    console.log('[' + msg.type() + '] - ' + msg.text());
+
+    if (msg.text() === 'EXIT') {
+      const average = (array: number[]) => {
+        // remove the two large numbers
+        let max = Math.max(...array);
+        for (let i = 0; i < REMOVE_TOP_SLOWEST; i++) {
+          array = array.filter((number) => number !== max);
+          max = Math.max(...array);
         }
 
-        const units = ['kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-        let u = -1;
-        const r = 10 ** precision;
+        // average the results
+        return array.reduce((a, b) => a + b) / array.length;
+      };
 
-        do {
-            bytes /= 1024;
-            ++u;
-        } while (Math.round(Math.abs(bytes) * r) / r >= 1024 && u < units.length - 1);
+      console.log('Final results:');
+      Object.entries(timings).forEach((entry) => {
+        const key = entry[0];
+        const value = entry[1];
+        console.log(`\t${key}: ` + average(value).toFixed(3));
+      });
 
-        return bytes.toFixed(precision) + ' ' + units[u];
-    };
+      // update documentation with the latest results
+      const benchmarksTemplatePath = path.join(__dirname, '../../docs/benchmarks_template.md');
+      let benchmarksTemplate = fs.readFileSync(benchmarksTemplatePath, 'utf8');
 
-    const browser = await puppeteer.launch({
-        headless: false,
-        args: ['--disable-web-security'],
-    });
+      const browserVersion = await page.browser().version();
+      const osDetails = `${os.platform()} - ${os.arch()} - ${os.release()}`;
+      const machineDetails = `${os.cpus()[0].model} [${os.cpus()[0].times}, ${
+        os.cpus().length
+      } threads] CPUs, ${humanFileSize(os.totalmem())} of memory`;
 
-    const page = await browser.newPage();
-    const timings: {[key: string]: number[]} = {};
-    page.on('console', async (msg: puppeteer.ConsoleMessage) => {
-        if (msg.text().startsWith('>>')) {
-            const parts = msg.text().substring(2).split(',');
-            const title = parts[0];
-            const duration = parseFloat(parts[1]);
-            if (typeof timings[title] !== 'undefined') {
-                timings[title]?.push(duration);
-            } else {
-                timings[title] = [duration];
-            }
-        }
-        console.log('[' + msg.type() + '] - ' + msg.text());
+      benchmarksTemplate = benchmarksTemplate.replace('%CHROME_VERSION%', browserVersion);
+      benchmarksTemplate = benchmarksTemplate.replace('%OS_DETAILS%', osDetails);
+      benchmarksTemplate = benchmarksTemplate.replace('%MACHINE_DETAILS%', machineDetails);
 
-        if (msg.text() === 'EXIT') {
-            const average = (array: number[]) => {
-                // remove the two large numbers
-                let max = Math.max(...array);
-                for (let i = 0; i < REMOVE_TOP_SLOWEST; i++) {
-                    array = array.filter((number) => number !== max);
-                    max = Math.max(...array);
-                }
+      benchmarksTemplate = benchmarksTemplate.replace('%BENCHMARKS%', JSON.stringify(timings, null, 4));
 
-                // average the results
-                return array.reduce((a, b) => a + b) / array.length;
-            };
+      fs.writeFileSync(path.join(__dirname, '../../docs/benchmarks.md'), benchmarksTemplate);
 
-            console.log('Final results:');
-            Object.entries(timings).forEach(entry => {
-                const key = entry[0];
-                const value = entry[1];
-                console.log(`\t${key}: ` + average(value).toFixed(3));
-            });
+      await browser.close();
+      await fileServer.close();
+    }
+  });
 
-            // update documentation with the latest results
-            const benchmarksTemplatePath = path.join(__dirname, '../../docs/benchmarks_template.md');
-            let benchmarksTemplate = fs.readFileSync(benchmarksTemplatePath, 'utf8');
-
-            const browserVersion = await page.browser().version();
-            const osDetails = `${os.platform()} - ${os.arch()} - ${os.release()}`;
-            const machineDetails = `${os.cpus()[0].model} [${os.cpus()[0].times}, ${
-                os.cpus().length
-            } threads] CPUs, ${humanFileSize(os.totalmem())} of memory`;
-
-            benchmarksTemplate = benchmarksTemplate.replace('%CHROME_VERSION%', browserVersion);
-            benchmarksTemplate = benchmarksTemplate.replace('%OS_DETAILS%', osDetails);
-            benchmarksTemplate = benchmarksTemplate.replace('%MACHINE_DETAILS%', machineDetails);
-
-            benchmarksTemplate = benchmarksTemplate.replace('%BENCHMARKS%', JSON.stringify(timings, null, 4));
-
-
-            fs.writeFileSync(path.join(__dirname, '../../docs/benchmarks.md'), benchmarksTemplate);
-
-            await browser.close();
-            await fileServer.close();
-        }
-    });
-
-    // setting the content will benchmarkRunner the benchmarks
-    await page.setContent(pageContent);
+  // setting the content will benchmarkRunner the benchmarks
+  await page.setContent(pageContent);
 };
 
 benchmarkRunner().then(() => void 0);

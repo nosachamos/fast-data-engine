@@ -1,7 +1,7 @@
 import { FastDataEngine } from '../FastDataEngine';
 import { Row } from '../tests/benchmarks/GeneratorTypes';
 import { FilterExpression } from '../model/filters/ObjectNotationTypes';
-import {JsonData} from "../model/JsonRow";
+import { JsonData } from '../model/JsonRow';
 
 const timeInMillis = (start: number, end: number) => (end - start).toFixed(3);
 
@@ -127,4 +127,3 @@ window.runBenchmarks = function (data: Row[], repeatTestData = 1, numberOfRuns =
     runSingleBenchmark('isDefined filter', data, { isDefined: 'optionalCode' });
   }
 };
-

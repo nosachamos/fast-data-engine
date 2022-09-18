@@ -1,18 +1,17 @@
-import {JsonRow} from '../JsonRow';
-import {INode} from './INode';
-import {ValueAccessor} from "./accessor/ValueAccessor";
+import { JsonRow } from '../JsonRow';
+import { INode } from './INode';
+import { ValueAccessor } from './accessor/ValueAccessor';
 
 export class LessThanOrEqualsNode implements INode {
-    constructor(private valueAccessor: ValueAccessor, private fieldName: string, private value: number) {
+  constructor(private valueAccessor: ValueAccessor, private fieldName: string, private value: number) {}
+
+  filter = (row: JsonRow): boolean => {
+    const rowValue = this.valueAccessor.access(row, this.fieldName);
+
+    if (typeof rowValue !== 'number') {
+      return false;
     }
 
-    filter = (row: JsonRow): boolean => {
-        const rowValue = this.valueAccessor.access(row, this.fieldName);
-
-        if (typeof rowValue !== 'number') {
-            return false;
-        }
-
-        return rowValue <= this.value;
-    };
+    return rowValue <= this.value;
+  };
 }

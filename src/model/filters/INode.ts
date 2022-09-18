@@ -1,10 +1,10 @@
-import {JsonRow} from '../JsonRow';
-import {FilterExpression} from './ObjectNotationTypes';
+import { JsonRow } from '../JsonRow';
+import { FilterExpression } from './ObjectNotationTypes';
 
 export interface INode {
-    filter: (row: JsonRow) => boolean;
+  filter: (row: JsonRow) => boolean;
 }
 
 export const isINode = (value: INode | FilterExpression): value is INode => {
-    return (value as INode).filter !== undefined;
+  return (value as INode).filter !== undefined;
 };
