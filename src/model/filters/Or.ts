@@ -10,6 +10,7 @@ export class OrNode implements INode {
                 return true;
             }
         }
-        return false;
+
+        return this.children.length === 0;
     };
 }

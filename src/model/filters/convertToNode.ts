@@ -1,4 +1,27 @@
-import { FilterExpression } from './ObjectNotationTypes';
+import {
+    FilterExpression,
+    FilterKeys,
+    isAndConfig,
+    isEndsWithConfig,
+    isEqualsConfig,
+    isFalseConfig,
+    isGreaterThanConfig,
+    isGreaterThanOrEqualsConfig,
+    isInArrayConfig,
+    isIncludesConfig,
+    isInListConfig,
+    isIsDefinedConfig,
+    isLessThanConfig,
+    isLessThanOrEqualsConfig,
+    isMatchesConfig,
+    isNotConfig,
+    isOrConfig,
+    isStartsWithConfig,
+    isTrueConfig,
+    isTypeOfConfig,
+    isXorConfig,
+    KnownKeys,
+} from './ObjectNotationTypes';
 import { INode } from './INode';
 import { NoopNode } from './Noop';
 import { EqualsNode } from './Equals';
@@ -18,17 +41,9 @@ import { StartsWith } from './StartsWith';
 import { EndsWith } from './EndsWith';
 import { NotNode } from './Not';
 import { InListNode } from './InList';
-import { InArrayNode } from './InArray';
 import { TypeOfNode } from './TypeOf';
 import { FieldAccessor } from './accessor/FieldAccessor';
-
-type KnownKeys<T> = {
-    [K in keyof T]: string extends K ? never : number extends K ? never : K;
-} extends infer R
-    ? R extends { [_ in keyof T]: infer U }
-        ? U
-        : never
-    : never;
+import { InArrayNode } from './InArray';
 
 export const convertToNode = (expression: FilterExpression): INode => {
     const keys = Object.keys(expression) as KnownKeys<FilterExpression>[];
@@ -51,92 +66,52 @@ export const convertToNode = (expression: FilterExpression): INode => {
     };
 
     for (let i = 0; i < keys.length; i++) {
-        const key = keys[i];
-        // @ts-expect-error: TS7053 - accessing key is safe here.
+        const key: FilterKeys = keys[i];
         const value = expression[key];
 
         // more field accessors will be added in the future.
         const dataAccessor = new FieldAccessor();
-        const accessorKey = value[dataAccessor.key];
-        switch (key) {
-            case 'equals':
-                rootChildren.push(new EqualsNode(dataAccessor, accessorKey, value.value, value.ignoreCase));
-                break;
 
-            case 'startsWith':
-                rootChildren.push(new StartsWith(dataAccessor, accessorKey, value.value, value.ignoreCase));
-                break;
-
-            case 'endsWith':
-                rootChildren.push(new EndsWith(dataAccessor, accessorKey, value.value, value.ignoreCase));
-                break;
-
-            case 'includes':
-                rootChildren.push(new IncludesNode(dataAccessor, accessorKey, value.value, value.ignoreCase));
-                break;
-
-            case 'matches':
-                rootChildren.push(new MatchesNode(dataAccessor, accessorKey, value.value, value.ignoreCase));
-                break;
-
-            case 'isTrue':
-                rootChildren.push(new IsTrueNode(dataAccessor, value));
-                break;
-
-            case 'isFalse':
-                rootChildren.push(new IsFalseNode(dataAccessor, value));
-                break;
-
-            case 'isDefined':
-                rootChildren.push(new IsDefinedNode(dataAccessor, value));
-                break;
-
-            case 'greaterThan':
-                rootChildren.push(new GreaterThanNode(dataAccessor, accessorKey, value.value));
-                break;
-
-            case 'greaterThanOrEquals':
-                rootChildren.push(new GreaterThanOrEqualsNode(dataAccessor, accessorKey, value.value));
-                break;
-
-            case 'lessThan':
-                rootChildren.push(new LessThanNode(dataAccessor, accessorKey, value.value));
-                break;
-
-            case 'lessThanOrEquals':
-                rootChildren.push(new LessThanOrEqualsNode(dataAccessor, accessorKey, value.value));
-                break;
-
-            case 'typeOf':
-                rootChildren.push(new TypeOfNode(dataAccessor, accessorKey, value.value));
-                break;
-
-            case 'inList':
-                rootChildren.push(new InListNode(dataAccessor, accessorKey, value.value, value.ignoreCase));
-                break;
-
-            case 'inArray':
-                rootChildren.push(new InArrayNode(dataAccessor, accessorKey, value.value, value.ignoreCase));
-                break;
-
-            case 'and':
-                rootChildren.push(new AndNode(processLogicalNode(value as FilterExpression[])));
-                break;
-
-            case 'or':
-                rootChildren.push(new OrNode(processLogicalNode(value as FilterExpression[])));
-                break;
-
-            case 'xor':
-                rootChildren.push(new XorNode(processLogicalNode(value as FilterExpression[])));
-                break;
-
-            case 'not':
-                rootChildren.push(new NotNode(convertToNode(value as FilterExpression)));
-                break;
-
-            default:
-                throw new Error(`Unknown filter node type [${key}].`);
+        if (isEqualsConfig(value, key)) {
+            rootChildren.push(new EqualsNode(dataAccessor, value[dataAccessor.key], value.value, value.ignoreCase));
+        } else if (isStartsWithConfig(value, key)) {
+            rootChildren.push(new StartsWith(dataAccessor, value[dataAccessor.key], value.value, value.ignoreCase));
+        } else if (isEndsWithConfig(value, key)) {
+            rootChildren.push(new EndsWith(dataAccessor, value[dataAccessor.key], value.value, value.ignoreCase));
+        } else if (isIncludesConfig(value, key)) {
+            rootChildren.push(new IncludesNode(dataAccessor, value[dataAccessor.key], value.value, value.ignoreCase));
+        } else if (isMatchesConfig(value, key)) {
+            rootChildren.push(new MatchesNode(dataAccessor, value[dataAccessor.key], value.value, value.ignoreCase));
+        } else if (isTrueConfig(value, key)) {
+            rootChildren.push(new IsTrueNode(dataAccessor, value));
+        } else if (isFalseConfig(value, key)) {
+            rootChildren.push(new IsFalseNode(dataAccessor, value));
+        } else if (isIsDefinedConfig(value, key)) {
+            rootChildren.push(new IsDefinedNode(dataAccessor, value));
+        } else if (isGreaterThanConfig(value, key)) {
+            rootChildren.push(new GreaterThanNode(dataAccessor, value[dataAccessor.key], value.value));
+        } else if (isGreaterThanOrEqualsConfig(value, key)) {
+            rootChildren.push(new GreaterThanOrEqualsNode(dataAccessor, value[dataAccessor.key], value.value));
+        } else if (isLessThanConfig(value, key)) {
+            rootChildren.push(new LessThanNode(dataAccessor, value[dataAccessor.key], value.value));
+        } else if (isLessThanOrEqualsConfig(value, key)) {
+            rootChildren.push(new LessThanOrEqualsNode(dataAccessor, value[dataAccessor.key], value.value));
+        } else if (isTypeOfConfig(value, key)) {
+            rootChildren.push(new TypeOfNode(dataAccessor, value[dataAccessor.key], value.value));
+        } else if (isInArrayConfig(value, key)) {
+            rootChildren.push(new InArrayNode(dataAccessor, value[dataAccessor.key], value.value, value.ignoreCase));
+        } else if (isInListConfig(value, key)) {
+            rootChildren.push(new InListNode(dataAccessor, value[dataAccessor.key], value.value, value.ignoreCase));
+        } else if (isAndConfig(value, key)) {
+            rootChildren.push(new AndNode(processLogicalNode(value as FilterExpression[])));
+        } else if (isOrConfig(value, key)) {
+            rootChildren.push(new OrNode(processLogicalNode(value as FilterExpression[])));
+        } else if (isXorConfig(value, key)) {
+            rootChildren.push(new XorNode(processLogicalNode(value as FilterExpression[])));
+        } else if (isNotConfig(value, key)) {
+            rootChildren.push(new NotNode(convertToNode(value as FilterExpression)));
+        } else {
+            throw new Error(`Unknown filter node type [${key}].`);
         }
     }
 

@@ -15,6 +15,7 @@ export class XorNode implements INode {
                 }
             }
         }
-        return result;
+
+        return this.children.length === 0 || result;
     };
 }
