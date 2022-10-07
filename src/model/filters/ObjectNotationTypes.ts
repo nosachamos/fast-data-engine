@@ -140,3 +140,29 @@ export type KnownKeys<T> = {
     : never;
 
 export type FilterKeys = KnownKeys<FilterExpression>;
+
+export const StringOperators = ['equals', 'matches', 'endsWith', 'startsWith', 'includes'] as const;
+export const NumericOperators = ['greaterThan', 'greaterThanOrEquals', 'lessThan', 'lessThanOrEquals', 'equals'] as const;
+export const BooleanOperators = ['isTrue', 'isFalse', 'isDefined'] as const;
+export const ArrayOrListOperators = ['inList', 'inArray'] as const;
+export const LogicalGroupOperators = ['and', 'or', 'xor'] as const;
+export const LogicalOperators = [...LogicalGroupOperators, 'not'] as const;
+
+export const isStringOperator = (operator: FilterKeys): operator is typeof StringOperators[number] => {
+    return StringOperators.includes(operator as typeof StringOperators[number]);
+};
+export const isNumericOperator = (operator: FilterKeys): operator is typeof NumericOperators[number] => {
+    return NumericOperators.includes(operator as typeof NumericOperators[number]);
+};
+export const isBooleanOperators = (operator: FilterKeys): operator is typeof BooleanOperators[number] => {
+    return BooleanOperators.includes(operator as typeof BooleanOperators[number]);
+};
+export const isLogicalGroupOperators = (operator: FilterKeys): operator is typeof LogicalGroupOperators[number] => {
+    return LogicalGroupOperators.includes(operator as typeof LogicalGroupOperators[number]);
+};
+export const isLogicalOperators = (operator: FilterKeys): operator is typeof LogicalOperators[number] => {
+    return LogicalOperators.includes(operator as typeof LogicalOperators[number]);
+};
+export const isArrayOrListOperators = (operator: FilterKeys): operator is typeof ArrayOrListOperators[number] => {
+    return ArrayOrListOperators.includes(operator as typeof ArrayOrListOperators[number]);
+};
