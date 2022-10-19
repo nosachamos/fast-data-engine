@@ -1,4 +1,4 @@
-import {INode} from "./INode";
+import { INode } from './INode';
 
 export type SupportedDataTypes = string | number | boolean | null | undefined | object;
 

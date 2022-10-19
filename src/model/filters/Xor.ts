@@ -1,5 +1,5 @@
 import { JsonRow } from '../JsonRow';
-import {INode, INodeListContainer} from './INode';
+import { INode, INodeListContainer } from './INode';
 
 export class XorNode implements INode, INodeListContainer {
     constructor(public children: INode[]) {}

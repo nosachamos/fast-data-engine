@@ -23,28 +23,28 @@ import {
     isXorConfig,
     KnownKeys,
 } from './ObjectNotationTypes';
-import {INode} from './INode';
-import {NoopNode} from './Noop';
-import {EqualsNode} from './Equals';
-import {AndNode} from './And';
-import {IncludesNode} from './Includes';
-import {OrNode} from './Or';
-import {XorNode} from './Xor';
-import {GreaterThanNode} from './GreaterThan';
-import {GreaterThanOrEqualsNode} from './GreaterThanOrEquals';
-import {LessThanOrEqualsNode} from './LessThanOrEquals';
-import {LessThanNode} from './LessThan';
-import {MatchesNode} from './Matches';
-import {IsTrueNode} from './IsTrue';
-import {IsFalseNode} from './IsFalse';
-import {IsDefinedNode} from './IsDefined';
-import {StartsWith} from './StartsWith';
-import {EndsWith} from './EndsWith';
-import {NotNode} from './Not';
-import {InListNode} from './InList';
-import {TypeOfNode} from './TypeOf';
-import {FieldAccessor} from './accessor/FieldAccessor';
-import {InArrayNode} from './InArray';
+import { INode } from './INode';
+import { NoopNode } from './Noop';
+import { EqualsNode } from './Equals';
+import { AndNode } from './And';
+import { IncludesNode } from './Includes';
+import { OrNode } from './Or';
+import { XorNode } from './Xor';
+import { GreaterThanNode } from './GreaterThan';
+import { GreaterThanOrEqualsNode } from './GreaterThanOrEquals';
+import { LessThanOrEqualsNode } from './LessThanOrEquals';
+import { LessThanNode } from './LessThan';
+import { MatchesNode } from './Matches';
+import { IsTrueNode } from './IsTrue';
+import { IsFalseNode } from './IsFalse';
+import { IsDefinedNode } from './IsDefined';
+import { StartsWith } from './StartsWith';
+import { EndsWith } from './EndsWith';
+import { NotNode } from './Not';
+import { InListNode } from './InList';
+import { TypeOfNode } from './TypeOf';
+import { FieldAccessor } from './accessor/FieldAccessor';
+import { InArrayNode } from './InArray';
 
 export const convertToNode = (expression: FilterExpression): INode => {
     const keys = Object.keys(expression) as KnownKeys<FilterExpression>[];
@@ -72,8 +72,8 @@ export const convertToNode = (expression: FilterExpression): INode => {
         } else if (value instanceof NotNode) {
             return Object.keys(value.child).length === 0;
         }
-        return false;
-    }
+        return value instanceof NoopNode;
+    };
 
     for (let i = 0; i < keys.length; i++) {
         const key: FilterKeys = keys[i];
@@ -113,20 +113,17 @@ export const convertToNode = (expression: FilterExpression): INode => {
         } else if (isInListConfig(value, key)) {
             rootChildren.push(new InListNode(dataAccessor, value[dataAccessor.key], value.value, value.ignoreCase));
         } else if (isAndConfig(value, key)) {
-            const children = processLogicalNode(value as FilterExpression[])
-                .filter(node => !isEmptyNode(node));
+            const children = processLogicalNode(value as FilterExpression[]).filter((node) => !isEmptyNode(node));
             if (isArrayNode(children) && children.length > 0) {
                 rootChildren.push(new AndNode(children));
             }
         } else if (isOrConfig(value, key)) {
-            const children = processLogicalNode(value as FilterExpression[])
-                .filter(node => !isEmptyNode(node));
+            const children = processLogicalNode(value as FilterExpression[]).filter((node) => !isEmptyNode(node));
             if (isArrayNode(children) && children.length > 0) {
                 rootChildren.push(new OrNode(children));
             }
         } else if (isXorConfig(value, key)) {
-            const children = processLogicalNode(value as FilterExpression[])
-                .filter(node => !isEmptyNode(node));
+            const children = processLogicalNode(value as FilterExpression[]).filter((node) => !isEmptyNode(node));
             if (isArrayNode(children) && children.length > 0) {
                 rootChildren.push(new XorNode(children));
             }

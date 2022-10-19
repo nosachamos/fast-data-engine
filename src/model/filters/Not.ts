@@ -1,5 +1,5 @@
 import { JsonRow } from '../JsonRow';
-import {INode, INotNode} from './INode';
+import { INode, INotNode } from './INode';
 
 export class NotNode implements INotNode {
     constructor(public child: INode) {}
