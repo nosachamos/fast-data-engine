@@ -1,8 +1,8 @@
 import { JsonRow } from '../JsonRow';
-import { INode } from './INode';
+import {INode, INodeListContainer} from './INode';
 
-export class XorNode implements INode {
-    constructor(private children: INode[]) {}
+export class XorNode implements INode, INodeListContainer {
+    constructor(public children: INode[]) {}
 
     filter = (row: JsonRow): boolean => {
         let result = false;

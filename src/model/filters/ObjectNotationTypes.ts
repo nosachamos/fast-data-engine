@@ -1,3 +1,5 @@
+import {INode} from "./INode";
+
 export type SupportedDataTypes = string | number | boolean | null | undefined | object;
 
 export enum SupportedTypesOfs {
@@ -108,6 +110,9 @@ export const isXorConfig = (v: OperatorConfig, key: FilterKeys): v is FilterExpr
 export const isNotConfig = (v: OperatorConfig, key: FilterKeys): v is FilterExpression => {
     return typeof v === 'object' && key === 'not';
 };
+export const isArrayNode = (v: INode | INode[]): v is INode[] => {
+    return Array.isArray(v);
+};
 
 export type FilterExpression = {
     not?: FilterExpression;
@@ -142,7 +147,13 @@ export type KnownKeys<T> = {
 export type FilterKeys = KnownKeys<FilterExpression>;
 
 export const StringOperators = ['equals', 'matches', 'endsWith', 'startsWith', 'includes'] as const;
-export const NumericOperators = ['greaterThan', 'greaterThanOrEquals', 'lessThan', 'lessThanOrEquals', 'equals'] as const;
+export const NumericOperators = [
+    'greaterThan',
+    'greaterThanOrEquals',
+    'lessThan',
+    'lessThanOrEquals',
+    'equals',
+] as const;
 export const BooleanOperators = ['isTrue', 'isFalse', 'isDefined'] as const;
 export const ArrayOrListOperators = ['inList', 'inArray'] as const;
 export const LogicalGroupOperators = ['and', 'or', 'xor'] as const;
