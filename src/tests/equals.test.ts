@@ -39,4 +39,32 @@ describe('equals operator', () => {
         const { result } = FastDataEngine.filter(data, condition);
         performBasicAssertions(result, 1, 0);
     });
+
+    it('filters a string value correctly when ignoring case', () => {
+        const condition = { equals: { field: 'firstName', value: ['ZION', 'ARJUN'], ignoreCase: true } };
+
+        const { result } = FastDataEngine.filter(data, condition);
+        performBasicAssertions(result, 2, 0);
+    });
+
+    it('filters a string value correctly when ignoring case', () => {
+        const condition = { equals: { field: 'firstName', value: ['Zion', 'Arjun'], ignoreCase: false } };
+
+        const { result } = FastDataEngine.filter(data, condition);
+        performBasicAssertions(result, 2, 0);
+    });
+
+    it('setting ignore case when filtering a non-string value does not impact filtering', () => {
+        const condition = { equals: { field: 'width', value: 1335.32 } };
+
+        const { result } = FastDataEngine.filter(data, condition);
+        performBasicAssertions(result, 1, 0);
+    });
+
+    it('setting ignore case when filtering a non-string value does not impact filtering', () => {
+        const condition = { equals: { field: 'width', value: [1335.32, 5302.28] } };
+
+        const { result } = FastDataEngine.filter(data, condition);
+        performBasicAssertions(result, 2, 0);
+    });
 });

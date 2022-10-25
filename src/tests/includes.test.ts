@@ -28,4 +28,25 @@ describe('includes operator', () => {
         const { result } = FastDataEngine.filter(data, condition);
         expect(result.length).toBe(0);
     });
+
+    it('filters a string array value correctly when ignoring case', () => {
+        const condition = { includes: { field: 'firstName', value: ['ZI', 'A'], ignoreCase: true } };
+
+        const { result } = FastDataEngine.filter(data, condition);
+        performBasicAssertions(result, 7, 0);
+    });
+
+    it('filters a string array value correctly', () => {
+        const condition = { includes: { field: 'firstName', value: ['zi', 'A'] } };
+
+        const { result } = FastDataEngine.filter(data, condition);
+        performBasicAssertions(result, 3, 3);
+    });
+
+    it('when filtering a non-string array value no rows match filter', () => {
+        const condition = { includes: { field: 'age', value: ['ZI', 'A'], ignoreCase: true } };
+
+        const { result } = FastDataEngine.filter(data, condition);
+        expect(result.length).toBe(0);
+    });
 });

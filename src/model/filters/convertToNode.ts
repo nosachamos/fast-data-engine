@@ -38,13 +38,18 @@ import { MatchesNode } from './Matches';
 import { IsTrueNode } from './IsTrue';
 import { IsFalseNode } from './IsFalse';
 import { IsDefinedNode } from './IsDefined';
-import { StartsWith } from './StartsWith';
-import { EndsWith } from './EndsWith';
+import { StartsWithNode } from './StartsWith';
+import { EndsWithNode } from './EndsWith';
 import { NotNode } from './Not';
 import { InListNode } from './InList';
 import { TypeOfNode } from './TypeOf';
 import { FieldAccessor } from './accessor/FieldAccessor';
 import { InArrayNode } from './InArray';
+import {IncludesMultipleNode} from "./IncludesMultiple";
+import {MatchesMultipleNode} from "./MatchesMultiple";
+import {EqualsMultipleNode} from "./EqualsMultiple";
+import {EndsWithMultipleNode} from "./EndsWithMultiple";
+import {StartsWithMultipleNode} from "./StartsWithMultiple";
 
 export const convertToNode = (expression: FilterExpression): INode => {
     const keys = Object.keys(expression) as KnownKeys<FilterExpression>[];
@@ -83,15 +88,35 @@ export const convertToNode = (expression: FilterExpression): INode => {
         const dataAccessor = new FieldAccessor();
 
         if (isEqualsConfig(value, key)) {
-            rootChildren.push(new EqualsNode(dataAccessor, value[dataAccessor.key], value.value, value.ignoreCase));
+            if (Array.isArray(value.value)) {
+                rootChildren.push(new EqualsMultipleNode(dataAccessor, value[dataAccessor.key], value.value, value.ignoreCase));
+            } else {
+                rootChildren.push(new EqualsNode(dataAccessor, value[dataAccessor.key], value.value, value.ignoreCase));
+            }
         } else if (isStartsWithConfig(value, key)) {
-            rootChildren.push(new StartsWith(dataAccessor, value[dataAccessor.key], value.value, value.ignoreCase));
+            if (Array.isArray(value.value)) {
+                rootChildren.push(new StartsWithMultipleNode(dataAccessor, value[dataAccessor.key], value.value, value.ignoreCase));
+            } else {
+                rootChildren.push(new StartsWithNode(dataAccessor, value[dataAccessor.key], value.value, value.ignoreCase));
+            }
         } else if (isEndsWithConfig(value, key)) {
-            rootChildren.push(new EndsWith(dataAccessor, value[dataAccessor.key], value.value, value.ignoreCase));
+            if (Array.isArray(value.value)) {
+                rootChildren.push(new EndsWithMultipleNode(dataAccessor, value[dataAccessor.key], value.value, value.ignoreCase));
+            } else {
+                rootChildren.push(new EndsWithNode(dataAccessor, value[dataAccessor.key], value.value, value.ignoreCase));
+            }
         } else if (isIncludesConfig(value, key)) {
-            rootChildren.push(new IncludesNode(dataAccessor, value[dataAccessor.key], value.value, value.ignoreCase));
+            if (Array.isArray(value.value)) {
+                rootChildren.push(new IncludesMultipleNode(dataAccessor, value[dataAccessor.key], value.value, value.ignoreCase));
+            } else {
+                rootChildren.push(new IncludesNode(dataAccessor, value[dataAccessor.key], value.value, value.ignoreCase));
+            }
         } else if (isMatchesConfig(value, key)) {
-            rootChildren.push(new MatchesNode(dataAccessor, value[dataAccessor.key], value.value, value.ignoreCase));
+            if (Array.isArray(value.value)) {
+                rootChildren.push(new MatchesMultipleNode(dataAccessor, value[dataAccessor.key], value.value, value.ignoreCase));
+            } else {
+                rootChildren.push(new MatchesNode(dataAccessor, value[dataAccessor.key], value.value, value.ignoreCase));
+            }
         } else if (isTrueConfig(value, key)) {
             rootChildren.push(new IsTrueNode(dataAccessor, value));
         } else if (isFalseConfig(value, key)) {

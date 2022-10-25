@@ -28,6 +28,18 @@ describe('matches operator', () => {
             const { result } = FastDataEngine.filter(data, condition);
             performBasicAssertions(result, 1, 0);
         }
+        {
+            const condition = { matches: { field: 'firstName', value: ['^Zi', '^Ar'], ignoreCase: false } };
+
+            const { result } = FastDataEngine.filter(data, condition);
+            performBasicAssertions(result, 2, 0);
+        }
+        {
+            const condition = { matches: { field: 'firstName', value: ['^zi', '^ar'], ignoreCase: true } };
+
+            const { result } = FastDataEngine.filter(data, condition);
+            performBasicAssertions(result, 2, 0);
+        }
     });
 
     it('filters a string value correctly when supplying a Regex instance', () => {
@@ -41,6 +53,22 @@ describe('matches operator', () => {
 
     it('when filtering a non-string value no rows match filter', () => {
         const condition = { matches: { field: 'age', value: 'ZI' } };
+
+        const { result } = FastDataEngine.filter(data, condition);
+        expect(result.length).toBe(0);
+    });
+
+    it('filters a string array value correctly when supplying a Regex instance', () => {
+        {
+            const condition = { matches: { field: 'firstName', value: [/^zi.*n$/i, /^ar.*n$/i] } };
+
+            const { result } = FastDataEngine.filter(data, condition);
+            performBasicAssertions(result, 2, 0);
+        }
+    });
+
+    it('when filtering a non-string array value no rows match filter', () => {
+        const condition = { matches: { field: 'age', value: ['ZI', 'Ar'] } };
 
         const { result } = FastDataEngine.filter(data, condition);
         expect(result.length).toBe(0);

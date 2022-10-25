@@ -2,13 +2,19 @@ import { JsonRow } from '../JsonRow';
 import { INode } from './INode';
 import { ValueAccessor } from './accessor/ValueAccessor';
 
-export class IncludesNode implements INode {
+export class MatchesMultipleNode implements INode {
+    regex: RegExp[];
+
     constructor(
         private valueAccessor: ValueAccessor,
         private fieldName: string,
-        private value: string,
-        private ignoreCase = false,
-    ) {}
+        value: string[] | RegExp[],
+        ignoreCase = false,
+    ) {
+        this.regex = value.map(v => v instanceof RegExp
+            ? v
+            : new RegExp(v, ignoreCase ? 'i' : undefined));
+    }
 
     filter = (row: JsonRow): boolean => {
         const rowValue = this.valueAccessor.access(row, this.fieldName);
@@ -17,8 +23,6 @@ export class IncludesNode implements INode {
             return false;
         }
 
-        return this.ignoreCase
-            ? rowValue.toLowerCase().includes(this.value.toLowerCase())
-            : rowValue.includes(this.value);
+        return this.regex.some(r => r.test(rowValue));
     };
 }

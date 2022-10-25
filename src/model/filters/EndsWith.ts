@@ -1,13 +1,12 @@
-import { SupportedDataTypes } from './ObjectNotationTypes';
-import { JsonRow } from '../JsonRow';
-import { INode } from './INode';
-import { ValueAccessor } from './accessor/ValueAccessor';
+import {JsonRow} from '../JsonRow';
+import {INode} from './INode';
+import {ValueAccessor} from './accessor/ValueAccessor';
 
-export class EndsWith implements INode {
+export class EndsWithNode implements INode {
     constructor(
         private valueAccessor: ValueAccessor,
         private fieldName: string,
-        private value: SupportedDataTypes,
+        private value: string,
         private ignoreCase = false,
     ) {}
 
@@ -15,7 +14,7 @@ export class EndsWith implements INode {
     filter = (row: JsonRow): boolean => {
         const rowValue = this.valueAccessor.access(row, this.fieldName);
 
-        if (typeof rowValue !== 'string' || typeof this.value !== 'string') {
+        if (typeof rowValue !== 'string') {
             return false;
         }
 

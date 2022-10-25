@@ -14,7 +14,6 @@ export class MatchesNode implements INode {
         this.regex = value instanceof RegExp ? value : new RegExp(value, ignoreCase ? 'i' : undefined);
     }
 
-    // TODO: benchmark without arrow functions
     filter = (row: JsonRow): boolean => {
         const rowValue = this.valueAccessor.access(row, this.fieldName);
 

@@ -28,4 +28,25 @@ describe('startsWith operator', () => {
         const { result } = FastDataEngine.filter(data, condition);
         expect(result.length).toBe(0);
     });
+
+    it('filters a string array value correctly when ignoring case', () => {
+        const condition = { startsWith: { field: 'firstName', value: ['ZI', 'AR'], ignoreCase: true } };
+
+        const { result } = FastDataEngine.filter(data, condition);
+        performBasicAssertions(result, 2, 0);
+    });
+
+    it('filters a string array value correctly when ignoring case', () => {
+        const condition = { startsWith: { field: 'firstName', value: ['Zi', 'Ar'], ignoreCase: false } };
+
+        const { result } = FastDataEngine.filter(data, condition);
+        performBasicAssertions(result, 2, 0);
+    });
+
+    it('when filtering a non-string array value no rows match filter', () => {
+        const condition = { startsWith: { field: 'age', value: ['zi', 'Ar'] } };
+
+        const { result } = FastDataEngine.filter(data, condition);
+        expect(result.length).toBe(0);
+    });
 });

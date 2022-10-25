@@ -30,13 +30,13 @@ type UnaryExpressionConfig = string;
 
 export type NumericConfig = FieldAccessorConfig & BinaryExpressionValue<number>;
 export type TypeOfConfig = FieldAccessorConfig & BinaryExpressionValue<SupportedTypesOfs>;
-export type EndsWithConfig = FieldAccessorConfig & StringBinaryExpressionValue<string>;
-export type StartsWithConfig = FieldAccessorConfig & StringBinaryExpressionValue<string>;
-export type MatchesConfig = FieldAccessorConfig & StringBinaryExpressionValue<string | RegExp>;
-export type IncludesConfig = FieldAccessorConfig & StringBinaryExpressionValue<string>;
+export type EndsWithConfig = FieldAccessorConfig & StringBinaryExpressionValue<string | string[]>;
+export type StartsWithConfig = FieldAccessorConfig & StringBinaryExpressionValue<string | string[]>;
+export type MatchesConfig = FieldAccessorConfig & StringBinaryExpressionValue<string | RegExp | string[] | RegExp[]>;
+export type IncludesConfig = FieldAccessorConfig & StringBinaryExpressionValue<string | string[]>;
 export type InArrayConfig = FieldAccessorConfig & StringBinaryExpressionValue<SupportedDataTypes>;
 export type InListConfig = FieldAccessorConfig & StringBinaryExpressionValue<SupportedDataTypes[]>;
-export type EqualsConfig = AccessorConfig & StringBinaryExpressionValue<SupportedDataTypes>;
+export type EqualsConfig = AccessorConfig & StringBinaryExpressionValue<SupportedDataTypes | SupportedDataTypes[]>;
 
 export type OperatorConfig =
     | NumericConfig
