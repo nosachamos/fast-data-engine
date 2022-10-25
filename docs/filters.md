@@ -74,6 +74,45 @@ const condition = not(isDefined('lastName'));
 Will return only records whose last name field is `null` or is not present at all.
 
 
+## Filtering for multiple values
+
+One way filtering records based on multiple values (e.g. name equals 'John' or 'Mary') is to create an `or` condition
+with multiple `equals` operators:
+
+```ts
+const condition = {
+    or: [
+        {
+            equals: {
+                field: 'firstName',
+                value: 'John'
+            },
+        },
+        {
+            equals: {
+                field: 'firstName',
+                value: 'Mary'
+            }
+        }
+    ]
+}
+```
+
+However, this can be simplified to:
+
+```ts
+const condition = {
+    equals: {
+        field: 'firstName',
+        value: ['John', 'Mary']
+    }
+}
+```
+
+All string-based operators support this syntax. When used, records matching any of the given values will be included in
+the result set.
+
+
 ## Alternative Syntax
 
 We realize not everyone wants to write nested functions when configuring filters. Sometimes it is convenient to use a 
