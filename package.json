@@ -52,8 +52,8 @@
         "watch": "run-s clean build:main && run-p \"build:main -- -w\" \"test:unit -- --watch\"",
         "doc": "run-s doc:generate:html && opn build/docs/html/index.html",
         "doc:generate": "run-s doc:generate:*",
-        "doc:generate:html": "typedoc src/ --exclude **/*.test.ts --out build/docs/html",
-        "doc:generate:json": "typedoc src/ --exclude **/*.test.ts --json build/docs/json/typedoc.json"
+        "doc:generate:html": "typedoc src/ --exclude **/*.test.ts --out build/docs/html --tsconfig tsconfig.es2020.json",
+        "doc:generate:json": "typedoc src/ --exclude **/*.test.ts --json build/docs/json/typedoc.json --tsconfig tsconfig.es2020.json"
     },
     "scripts-info": {
         "info": "Display information about the package scripts",
