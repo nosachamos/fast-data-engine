@@ -1,7 +1,7 @@
 // seeded uuid so benchmark stays consistent
 import getUuid from 'uuid-by-string';
-import seedrandom from 'seedrandom';
 import { Country, Region, Row } from './GeneratorTypes';
+const seedrandom = require('seedrandom');
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const fs = require('fs');

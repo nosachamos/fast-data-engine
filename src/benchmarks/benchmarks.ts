@@ -17,7 +17,9 @@ const prepareData = (data: Row[], repeatTestData: number = 1) => {
 const runSingleBenchmark = (title: string, data: JsonData, condition: FilterExpression) => {
     const start = performance.now();
     const { result } = FastDataEngine.filter(data, condition);
-    console.log(`>> ${title}|${JSON.stringify(condition)}|${timeInMillis(start, performance.now())} + ${result.length}`);
+    console.log(
+        `>> ${title}|${JSON.stringify(condition)}|${timeInMillis(start, performance.now())} + ${result.length}`,
+    );
     console.log(`---`);
 };
 
