@@ -1,7 +1,7 @@
-import {JsonRow} from '../JsonRow';
-import {INode} from './INode';
-import {ValueAccessor} from './accessor/ValueAccessor';
-import {SupportedDataTypes} from "./ObjectNotationTypes";
+import { JsonRow } from '../JsonRow';
+import { INode } from './INode';
+import { ValueAccessor } from './accessor/ValueAccessor';
+import { SupportedDataTypes } from './ObjectNotationTypes';
 
 export class IncludesMultipleNode implements INode {
     constructor(
@@ -16,11 +16,12 @@ export class IncludesMultipleNode implements INode {
 
         for (let i = 0; i < this.value.length; i++) {
             const v = this.value[i];
-            const match = typeof rowValue === 'string' ?
-                this.ignoreCase
-                    ? rowValue.toLowerCase().includes(v.toLowerCase())
-                    : rowValue.includes(v)
-                : false;
+            const match =
+                typeof rowValue === 'string'
+                    ? this.ignoreCase
+                        ? rowValue.toLowerCase().includes(v.toLowerCase())
+                        : rowValue.includes(v)
+                    : false;
 
             if (match) return true;
         }

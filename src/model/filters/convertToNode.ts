@@ -45,11 +45,11 @@ import { InListNode } from './InList';
 import { TypeOfNode } from './TypeOf';
 import { FieldAccessor } from './accessor/FieldAccessor';
 import { InArrayNode } from './InArray';
-import {IncludesMultipleNode} from "./IncludesMultiple";
-import {MatchesMultipleNode} from "./MatchesMultiple";
-import {EqualsMultipleNode} from "./EqualsMultiple";
-import {EndsWithMultipleNode} from "./EndsWithMultiple";
-import {StartsWithMultipleNode} from "./StartsWithMultiple";
+import { IncludesMultipleNode } from './IncludesMultiple';
+import { MatchesMultipleNode } from './MatchesMultiple';
+import { EqualsMultipleNode } from './EqualsMultiple';
+import { EndsWithMultipleNode } from './EndsWithMultiple';
+import { StartsWithMultipleNode } from './StartsWithMultiple';
 
 export const convertToNode = (expression: FilterExpression): INode => {
     const keys = Object.keys(expression) as KnownKeys<FilterExpression>[];
@@ -89,33 +89,51 @@ export const convertToNode = (expression: FilterExpression): INode => {
 
         if (isEqualsConfig(value, key)) {
             if (Array.isArray(value.value)) {
-                rootChildren.push(new EqualsMultipleNode(dataAccessor, value[dataAccessor.key], value.value, value.ignoreCase));
+                rootChildren.push(
+                    new EqualsMultipleNode(dataAccessor, value[dataAccessor.key], value.value, value.ignoreCase),
+                );
             } else {
                 rootChildren.push(new EqualsNode(dataAccessor, value[dataAccessor.key], value.value, value.ignoreCase));
             }
         } else if (isStartsWithConfig(value, key)) {
             if (Array.isArray(value.value)) {
-                rootChildren.push(new StartsWithMultipleNode(dataAccessor, value[dataAccessor.key], value.value, value.ignoreCase));
+                rootChildren.push(
+                    new StartsWithMultipleNode(dataAccessor, value[dataAccessor.key], value.value, value.ignoreCase),
+                );
             } else {
-                rootChildren.push(new StartsWithNode(dataAccessor, value[dataAccessor.key], value.value, value.ignoreCase));
+                rootChildren.push(
+                    new StartsWithNode(dataAccessor, value[dataAccessor.key], value.value, value.ignoreCase),
+                );
             }
         } else if (isEndsWithConfig(value, key)) {
             if (Array.isArray(value.value)) {
-                rootChildren.push(new EndsWithMultipleNode(dataAccessor, value[dataAccessor.key], value.value, value.ignoreCase));
+                rootChildren.push(
+                    new EndsWithMultipleNode(dataAccessor, value[dataAccessor.key], value.value, value.ignoreCase),
+                );
             } else {
-                rootChildren.push(new EndsWithNode(dataAccessor, value[dataAccessor.key], value.value, value.ignoreCase));
+                rootChildren.push(
+                    new EndsWithNode(dataAccessor, value[dataAccessor.key], value.value, value.ignoreCase),
+                );
             }
         } else if (isIncludesConfig(value, key)) {
             if (Array.isArray(value.value)) {
-                rootChildren.push(new IncludesMultipleNode(dataAccessor, value[dataAccessor.key], value.value, value.ignoreCase));
+                rootChildren.push(
+                    new IncludesMultipleNode(dataAccessor, value[dataAccessor.key], value.value, value.ignoreCase),
+                );
             } else {
-                rootChildren.push(new IncludesNode(dataAccessor, value[dataAccessor.key], value.value, value.ignoreCase));
+                rootChildren.push(
+                    new IncludesNode(dataAccessor, value[dataAccessor.key], value.value, value.ignoreCase),
+                );
             }
         } else if (isMatchesConfig(value, key)) {
             if (Array.isArray(value.value)) {
-                rootChildren.push(new MatchesMultipleNode(dataAccessor, value[dataAccessor.key], value.value, value.ignoreCase));
+                rootChildren.push(
+                    new MatchesMultipleNode(dataAccessor, value[dataAccessor.key], value.value, value.ignoreCase),
+                );
             } else {
-                rootChildren.push(new MatchesNode(dataAccessor, value[dataAccessor.key], value.value, value.ignoreCase));
+                rootChildren.push(
+                    new MatchesNode(dataAccessor, value[dataAccessor.key], value.value, value.ignoreCase),
+                );
             }
         } else if (isTrueConfig(value, key)) {
             rootChildren.push(new IsTrueNode(dataAccessor, value));

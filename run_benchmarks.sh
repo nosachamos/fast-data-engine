@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BENCHMARK_VERSIONS="0.0.1-alpha-2 1.0.0"
+BENCHMARK_VERSIONS="0.0.1-alpha-2 1.4.0"
 
 rm -fr .benchmarks_tmp
 mkdir .benchmarks_tmp

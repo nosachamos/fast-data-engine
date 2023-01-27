@@ -11,9 +11,7 @@ export class MatchesMultipleNode implements INode {
         value: string[] | RegExp[],
         ignoreCase = false,
     ) {
-        this.regex = value.map(v => v instanceof RegExp
-            ? v
-            : new RegExp(v, ignoreCase ? 'i' : undefined));
+        this.regex = value.map((v) => (v instanceof RegExp ? v : new RegExp(v, ignoreCase ? 'i' : undefined)));
     }
 
     filter = (row: JsonRow): boolean => {
@@ -23,6 +21,6 @@ export class MatchesMultipleNode implements INode {
             return false;
         }
 
-        return this.regex.some(r => r.test(rowValue));
+        return this.regex.some((r) => r.test(rowValue));
     };
 }

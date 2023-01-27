@@ -26,7 +26,7 @@
         "benchmark:generate:data": "ts-node src/tests/benchmarks/generate.ts",
         "benchmark:run": "ts-node build/benchmarks.min.js",
         "build": "run-s clean && npm run prepare:generate-barrels && npm run build:ts && npm run build:js && npm run build:copy-types && npm run build:benchmarks",
-        "build:ts": "tsc -p tsconfig.json",
+        "build:ts": "tsc -p tsconfig.es2020.json",
         "build:js": "webpack --config webpack.config.js --mode production && webpack --config webpack.min.config.js --mode production",
         "build:copy-types": "cd .tmp && find . -name '*.d.ts' -exec cp --parents \\{\\} ../build \\; && cd ..",
         "build:benchmarks": "tsc -p tsconfig.benchmarks.json && webpack --config webpack.bechmark-runner.min.config.js --mode development && webpack --config webpack.bechmarks.min.config.js --mode development",

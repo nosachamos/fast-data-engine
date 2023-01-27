@@ -1,6 +1,6 @@
-import {JsonRow} from '../JsonRow';
-import {INode} from './INode';
-import {ValueAccessor} from './accessor/ValueAccessor';
+import { JsonRow } from '../JsonRow';
+import { INode } from './INode';
+import { ValueAccessor } from './accessor/ValueAccessor';
 
 export class StartsWithNode implements INode {
     constructor(

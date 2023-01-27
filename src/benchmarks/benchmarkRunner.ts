@@ -91,19 +91,32 @@ export const benchmarkRunner = async () => {
     });
 
     const page = await browser.newPage();
-    const timings: { [key: string]: number[] } = {};
+    type RunResult = {
+        duration: number;
+        expression: Record<string, any>;
+    };
+
+    const timings: { [key: string]: RunResult[] } = {};
+    let partialMessage = '';
     page.on('console', async (msg: puppeteer.ConsoleMessage) => {
-        if (msg.text().startsWith('>>')) {
-            const parts = msg.text().substring(2).split(',');
+        if (msg.text().startsWith('---')) { // end of multi-line message
+            console.log('[' + msg.type() + '] - ' + partialMessage);
+            const parts = partialMessage.substring(3).split('|');
             const title = parts[0];
-            const duration = parseFloat(parts[1]);
+            console.log('TITLE: ' + parts[0]);
+            const expression = JSON.parse(parts[1]);
+            const duration = parseFloat(parts[2]);
             if (typeof timings[title] !== 'undefined') {
-                timings[title]?.push(duration);
+                timings[title]?.push({duration, expression});
             } else {
-                timings[title] = [duration];
+                timings[title] = [{duration, expression}];
             }
+
+            partialMessage = '';
+
+        } else { // multi-line message being transmitted.
+            partialMessage += msg.text();
         }
-        console.log('[' + msg.type() + '] - ' + msg.text());
 
         if (msg.text() === 'EXIT') {
             const average = (array: number[]) => {
@@ -120,9 +133,9 @@ export const benchmarkRunner = async () => {
 
             console.log('Final results:');
             Object.entries(timings).forEach((entry) => {
-                const key = entry[0];
-                const value = entry[1];
-                console.log(`\t${key}: ` + average(value).toFixed(3));
+                const title = entry[0];
+                const result = entry[1]; // for now take only the latest result
+                console.log(`\t${title}: ` + average(result.map(r => r.duration)).toFixed(3) + `ms`);
             });
 
             // update documentation with the latest results
@@ -131,9 +144,9 @@ export const benchmarkRunner = async () => {
 
             const browserVersion = await page.browser().version();
             const osDetails = `${os.platform()} - ${os.arch()} - ${os.release()}`;
-            const machineDetails = `${os.cpus()[0].model} [${os.cpus()[0].times}, ${
+            const machineDetails = `${os.cpus()[0].model} [${os.cpus()[0].speed / 1000} GHz, ${
                 os.cpus().length
-            } threads] CPUs, ${humanFileSize(os.totalmem())} of memory`;
+            } threads], ${humanFileSize(os.totalmem())} of memory`;
 
             benchmarksTemplate = benchmarksTemplate.replace('%CHROME_VERSION%', browserVersion);
             benchmarksTemplate = benchmarksTemplate.replace('%OS_DETAILS%', osDetails);
